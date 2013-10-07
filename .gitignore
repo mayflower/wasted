@@ -1,0 +1,10 @@
+# Vagrant & puppet stuff
+
+.vagrant
+/modules/*
+
+/config/config
+
+# IDE & OS stuff
+/.idea/*
+.DS_Store

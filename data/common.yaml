@@ -1,0 +1,39 @@
+---
+env: dev
+path: /var/www/app_name
+vhost: app-name.dev
+
+mysql::server::root_password: root
+
+# fixes permission errors
+php::fpm::user: vagrant
+php::fpm::group: users
+
+component::php::extensions:
+  curl: {}
+  json: {}
+  intl: {}
+  apc:
+    package: php-apc
+    config:
+      - 'set .anon/apc.stat 1'
+      - 'set .anon/apc.stat_ctime 1'
+  xdebug:
+    config:
+      - 'set .anon/xdebug.max_nesting_level 1000'
+      - 'set .anon/xdebug.remote_enable On'
+      - 'set .anon/xdebug.default_enable On'
+      - 'set .anon/xdebug.remote_connect_back On'
+
+# fixes bugs with vboxfs
+nginx::params::nx_sendfile: off
+nginx::manage_repo: false
+
+hhf::symfony2::path: /var/www/happy-hour-finder
+hhf::symfony2::env: dev
+hhf::symfony2::vhost: hhf.dev
+
+apt::always_apt_update: true
+apt::purge_sources_list: false
+apt::purge_sources_list_d: false
+apt::purge_preferences_d: false
