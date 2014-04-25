@@ -29,10 +29,6 @@ component::php::extensions:
 nginx::params::nx_sendfile: off
 nginx::manage_repo: false
 
-hhf::symfony2::path: /var/www/happy-hour-finder
-hhf::symfony2::env: dev
-hhf::symfony2::vhost: hhf.dev
-
 apt::always_apt_update: true
 apt::purge_sources_list: false
 apt::purge_sources_list_d: false
