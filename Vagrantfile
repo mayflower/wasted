@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
   end
 
   # filedump.mayflowerkunden.de currently only accessible via IPv4! (2013-11-25)
-  config.vm.box_url = 'http://filedump.mayflower.de/baseboxes/ubuntu-14.04-puppet3.5.1-vbox4.3.10.box'
+  config.vm.box_url = 'http://filedump.mayflower.de/baseboxes/ubuntu-14.04-puppet3.4.3-vbox4.3.10.box'
 
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "2048"]
