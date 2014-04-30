@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :hostmanager if Vagrant.has_plugin?("vagrant-hostmanager")
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path    = "manifests"
-    puppet.manifest_file     = "ubuntu-devstack.pp"
+    puppet.manifest_file     = "ubuntu_devstack.pp"
     puppet.module_path       = ["modules", "site"]
     puppet.options           = "--verbose "
     puppet.hiera_config_path = "hiera.yaml"
