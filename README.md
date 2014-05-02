@@ -19,3 +19,6 @@ Recommended Plugins
 The config makes use of but does not require:
  - vagrant-cachier (Package file caching)
  - vagrant-hostmanager (/etc/hosts management)
+
+To update vbox guest extensions automatically you can use:
+ - vagrant-vbguest

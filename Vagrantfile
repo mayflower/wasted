@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
   # Install r10k using the shell provisioner and download the Puppet modules
   config.vm.provision :shell, :path => "bootstrap.sh"
 
-  config.vm.synced_folder "./", "/var/www/app_name"
+  config.vm.synced_folder "../", "/var/www/app_name"
   config.vm.network :private_network, :ip => $ip
 
   config.vm.provision :hostmanager if Vagrant.has_plugin?("vagrant-hostmanager")

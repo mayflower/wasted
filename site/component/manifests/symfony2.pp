@@ -1,7 +1,7 @@
 class component::symfony2 (
-  $path = '/srv/www/vhosts/app',
-  $vhost = 'sf2.example.com',
-  $env = 'development',
+  $path = hiera('path', '/var/www/app_name'),
+  $vhost = hiera('vhost', 'app-name.dev'),
+  $env = hiera('env', 'dev'),
 ) {
 
   $index_file = $env ? {

@@ -13,7 +13,7 @@ class component::php_vhost (
   nginx::resource::location { 'devstack-php-rewrite':
     location  => '~ \.php$',
     vhost     => 'default_vhost',
-    fastcgi   => 'unix:/tmp/fpm.socket',
+    fastcgi   => '127.0.0.1:9000',
     try_files => ['$uri =404'],
     www_root  => '/var/www/devstack',
   }

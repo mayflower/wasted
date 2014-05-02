@@ -9,10 +9,11 @@ mysql::server::root_password: root
 php::fpm::user: vagrant
 php::fpm::group: users
 
-component::php::extensions:
+php::extensions:
   curl: {}
   json: {}
   intl: {}
+  mysql: {}
   apc:
     package: php-apc
     config:
