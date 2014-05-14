@@ -6,7 +6,16 @@ $ip = '192.168.56.112'
 configfile = File.expand_path("config")
 load configfile if File.exist?(configfile)
 
+class GuestAdditionsFixer < VagrantVbguest::Installers::Ubuntu
+  def install(opts=nil, &block)
+    super
+    communicate.sudo('([ -e /opt/VBoxGuestAdditions-4.3.10 ] && sudo ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions) || true')
+  end
+end
+
 Vagrant.configure("2") do |config|
+  config.vbguest.installer = GuestAdditionsFixer
+
   config.vm.box = "trusty64"
 
   # Use vagrant-hostmanager if installed
