@@ -3,9 +3,6 @@
 
 $ip = '192.168.56.112'
 
-configfile = File.expand_path("config")
-load configfile if File.exist?(configfile)
-
 if Vagrant.has_plugin?("vagrant-vbguest")
   class GuestAdditionsFixer < VagrantVbguest::Installers::Ubuntu
     def install(opts=nil, &block)
@@ -14,6 +11,10 @@ if Vagrant.has_plugin?("vagrant-vbguest")
     end
   end
 end
+
+provider   = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
+configfile = File.expand_path("config")
+load configfile if File.exist?(configfile)
 
 Vagrant.configure("2") do |config|
   if Vagrant.has_plugin?("vagrant-vbguest")
@@ -30,8 +31,19 @@ Vagrant.configure("2") do |config|
     config.hostmanager.include_offline = true
   end
 
-  # filedump.mayflowerkunden.de currently only accessible via IPv4! (2013-11-25)
-  config.vm.box_url = 'http://filedump.mayflower.de/baseboxes/ubuntu-14.04-puppet3.4.3-vbox4.3.10.box'
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.installer = GuestAdditionsFixer
+  end
+
+  config.vm.box = "trusty64"
+
+  if provider == :virtualbox
+    config.vm.box_url = 'http://filedump.mayflower.de/baseboxes/ubuntu-14.04-puppet3.4.3-vbox4.3.10.box'
+  elsif provider == :lxc
+    config.vm.box_url = 'http://filedump.mayflower.de/baseboxes/ubuntu-14.04-puppet3.4.3-lxc.box'
+  else
+    puts 'Your Vagrant provider isn\'t supported!'
+  end
 
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "2048"]
