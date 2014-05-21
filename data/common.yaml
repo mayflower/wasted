@@ -15,7 +15,7 @@ php::extensions:
   intl: {}
   mysql: {}
   apc:
-    package: php-apc
+    package_prefix: php-
     config:
       - 'set .anon/apc.stat 1'
       - 'set .anon/apc.stat_ctime 1'
