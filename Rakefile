@@ -13,7 +13,7 @@ PuppetLint.configuration.log_format = '%{path}:%{linenumber}:%{check}:%{KIND}:%{
 PuppetLint.configuration.send('disable_documentation')
 PuppetLint.configuration.send('disable_80chars')
 
-manifest_patterns = ['site/**/*.pp']
+manifest_patterns = ['site/**/*.pp', 'manifests/*.pp']
 
 task :validate do
   pipe = IO.popen('xargs puppet parser validate --parser future', 'w')
