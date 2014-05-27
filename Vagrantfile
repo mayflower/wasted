@@ -22,10 +22,10 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.box = "trusty64"
+  config.vm.hostname = "app-name.dev"
 
   # Use vagrant-hostmanager if installed
   if Vagrant.has_plugin?("vagrant-hostmanager")
-    config.vm.hostname = "app-name.dev"
     config.hostmanager.enabled = true
     config.hostmanager.manage_host = true
     config.hostmanager.include_offline = true
