@@ -2,6 +2,7 @@
 :backends:
   - yaml
 :yaml:
-  :datadir: /vagrant/data
+  :datadir: /vagrant/
 :hierarchy:
-  - common
+  - devstack
+  - vagrant/data/common
