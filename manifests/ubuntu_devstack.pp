@@ -8,18 +8,13 @@ class ubuntu_devstack {
   package { 'libaugeas-ruby': }  ->
   class { 'component::php': } ->
   class { 'component::mysql': } ->
-  class { 'nginx': }
-
-  # We need this dependency handling because otherwise we get a dependency cycle with Service['nginx']
-  Class['component::mysql'] ->
   class { 'component::symfony2': }
-
   # alternatives
-  # Class['component::mysql'] ->
   # class { 'component::zend_framework1': }
-
-  # Class['component::mysql'] ->
   # class { 'component::php_vhost': }
+
+  # We need this dependency handling because otherwise we get a dependency cycle with Service['nginx'] and apt
+  class { 'nginx': }
 }
 
 include ubuntu_devstack
