@@ -1,6 +1,7 @@
 ---
 path: /var/www/app_name
 vhost: app-name.dev
+ip: 192.168.56.112
 
 mysql::server::root_password: root
 

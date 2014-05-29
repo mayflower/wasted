@@ -1,3 +1,0 @@
-$ip = '192.168.56.112'
-$hostname = 'app-name.dev'
-$synced_folder = '/var/www/app_name'
