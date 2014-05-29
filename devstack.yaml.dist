@@ -1,11 +1,29 @@
 ---
+## general configuration
 path: /var/www/app_name
 vhost: app-name.dev
 ip: 192.168.56.112
 box_name: trusty64
 
+mysql: true
+postgresql: false
+
+
+## mysql
 mysql::server::root_password: root
 
+
+## postgresql
+# component::postgresql::postgres_password: postgres
+# component::postgresql::extensions:
+#     - postgresql-9.3-postgis-2.1
+# component::postgresql::databases:
+#   happy_hour_finder:
+#     user: 'dev'
+#     password: 'dev'
+
+
+## php
 php::extensions:
   curl: {}
   json: {}
