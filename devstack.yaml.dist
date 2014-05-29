@@ -18,7 +18,7 @@ mysql::server::root_password: root
 # component::postgresql::extensions:
 #     - postgresql-9.3-postgis-2.1
 # component::postgresql::databases:
-#   happy_hour_finder:
+#   db_name:
 #     user: 'dev'
 #     password: 'dev'
 
