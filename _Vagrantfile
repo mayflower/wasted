@@ -2,8 +2,10 @@
 # vi: set ft=ruby :
 
 $ip = '192.168.56.112'
+$hostname = 'app-name.dev'
+$synced_folder = '/var/www/app_name'
 
-if Vagrant.has_plugin?("vagrant-vbguest")
+if Vagrant.has_plugin?('vagrant-vbguest')
   class GuestAdditionsFixer < VagrantVbguest::Installers::Ubuntu
     def install(opts=nil, &block)
       super
@@ -13,8 +15,11 @@ if Vagrant.has_plugin?("vagrant-vbguest")
 end
 
 provider   = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
-configfile = File.expand_path("config")
+
+configfile = File.expand_path('../../vagrant_project_config', __FILE__)
 load configfile if File.exist?(configfile)
+personal_configfile = File.expand_path('../../vagrant_personal_config', __FILE__)
+load personal_configfile if File.exist?(personal_configfile)
 
 Vagrant.configure("2") do |config|
   if Vagrant.has_plugin?("vagrant-vbguest")
@@ -22,20 +27,18 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.box = "trusty64"
-  config.vm.hostname = "app-name.dev"
+  config.vm.hostname = $hostname
 
   # Use vagrant-hostmanager if installed
-  if Vagrant.has_plugin?("vagrant-hostmanager")
+  if Vagrant.has_plugin?('vagrant-hostmanager')
     config.hostmanager.enabled = true
     config.hostmanager.manage_host = true
     config.hostmanager.include_offline = true
   end
 
-  if Vagrant.has_plugin?("vagrant-vbguest")
+  if Vagrant.has_plugin?('vagrant-vbguest')
     config.vbguest.installer = GuestAdditionsFixer
   end
-
-  config.vm.box = "trusty64"
 
   if provider == :virtualbox
     config.vm.box_url = 'http://filedump.mayflower.de/baseboxes/ubuntu-14.04-puppet3.4.3-vbox4.3.10.box'
@@ -46,27 +49,26 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "2048"]
-    vb.customize ["modifyvm", :id, "--name", "devstack"]
+    vb.customize ['modifyvm', :id, '--memory', '2048']
   end
 
   # Use vagrant-cachier if installed
-  if Vagrant.has_plugin?("vagrant-cachier")
+  if Vagrant.has_plugin?('vagrant-cachier')
     config.cache.auto_detect = true
   end
 
   # Install r10k using the shell provisioner and download the Puppet modules
-  config.vm.provision :shell, :path => "bootstrap.sh"
+  config.vm.provision :shell, :path => 'vagrant/bootstrap.sh'
 
-  config.vm.synced_folder "../", "/var/www/app_name"
+  config.vm.synced_folder './', $synced_folder
   config.vm.network :private_network, :ip => $ip
 
-  config.vm.provision :hostmanager if Vagrant.has_plugin?("vagrant-hostmanager")
+  config.vm.provision :hostmanager if Vagrant.has_plugin?('vagrant-hostmanager')
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path    = "manifests"
-    puppet.manifest_file     = "ubuntu_devstack.pp"
-    puppet.module_path       = ["modules", "site"]
-    puppet.options           = "--verbose "
-    puppet.hiera_config_path = "hiera.yaml"
+    puppet.manifests_path    = 'vagrant/manifests'
+    puppet.manifest_file     = 'ubuntu_devstack.pp'
+    puppet.module_path       = ['vagrant/modules', 'vagrant/site']
+    puppet.options           = '--verbose'
+    puppet.hiera_config_path = 'vagrant/hiera.yaml'
   end
 end
