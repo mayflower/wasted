@@ -14,7 +14,7 @@ This might not work if you are using non-Virtualbox providers.
 To add this to your project:
 ```
 git subtree add --prefix vagrant git@github.com:Mayflower/vagrant_generic_devstack master  # adds this repository as git subtree
-rake -f vagrant/Rakefile bootstrap
+./vagrant/bootstrap.sh
 ```
 
 Configuration

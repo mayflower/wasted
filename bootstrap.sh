@@ -1,8 +1,16 @@
 #!/bin/sh
 
-apt-get update -qq
-[ -x /usr/bin/git ] || apt-get install -y -q git
-[ -x /usr/bin/gem ] || apt-get install -y -q rubygems
-[ -x /usr/local/bin/r10k ] || gem install --no-rdoc --no-ri r10k
-cd /vagrant/vagrant && r10k -v info puppetfile install
+set -e
 
+readonly DIR=$(readlink -m $(dirname $0))
+
+main() {
+    echo "[bootstrap] link Vagrantfile" && \
+        ln -si $DIR/_Vagrantfile $DIR/../Vagrantfile
+    echo "[bootstrap] create vagrant_project_config" && \
+        cp -i $DIR/config.dist $DIR/../vagrant_project_config
+    echo "[bootstrap] create devstack.yaml" && \
+        cp -i $DIR/devstack.yaml.dist $DIR/../devstack.yaml
+}
+
+main

@@ -25,10 +25,4 @@ task :validate do
   pipe.close_write
 end
 
-task :bootstrap do
-  FileUtils.ln_sf File.expand_path('../_Vagrantfile', __FILE__), File.expand_path('../../Vagrantfile', __FILE__)
-  FileUtils.cp File.expand_path('../config.dist', __FILE__), File.expand_path('../../vagrant_project_config', __FILE__)
-  FileUtils.cp File.expand_path('../devstack.yaml.dist', __FILE__), File.expand_path('../../devstack.yaml', __FILE__)
-end
-
 task :default => [:validate, :lint]
