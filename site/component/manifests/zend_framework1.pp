@@ -1,6 +1,6 @@
 class component::zend_framework1 (
-  $path = hiera('www_path', '/var/www/application_name'),
-  $vhost = hiera('vhost', 'application_name.dev'),
+  $path = hiera('path', '/var/www/app_name'),
+  $vhost = hiera('vhost', 'app-name.dev'),
   $env = hiera('env', 'dev'),
 ) {
 

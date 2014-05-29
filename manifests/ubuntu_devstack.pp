@@ -19,7 +19,7 @@ class ubuntu_devstack {
   # class { 'component::zend_framework1': }
 
   # Class['component::mysql'] ->
-  # class { 'component:php_vhost': }
+  # class { 'component::php_vhost': }
 }
 
 include ubuntu_devstack

@@ -1,20 +1,20 @@
 class component::php_vhost (
-  $path = hiera('www_path', '/var/www/application_name'),
-  $vhost = hiera('vhost', 'application_name.dev'),
+  $path = hiera('path', '/var/www/app_name'),
+  $vhost = hiera('vhost', 'app-name.dev'),
   $env = hiera('env', 'dev'),
 ) {
 
   ## create default vhost
-  nginx::resource::vhost { 'default_vhost':
+  nginx::resource::vhost { $vhost:
     ensure   => present,
-    www_root => '/var/www/devstack',
-  } ->
+    www_root => $path,
+  }
   ## create location to direct .php to the fpm pool
   nginx::resource::location { 'devstack-php-rewrite':
     location  => '~ \.php$',
-    vhost     => 'default_vhost',
+    vhost     => $vhost,
     fastcgi   => '127.0.0.1:9000',
     try_files => ['$uri =404'],
-    www_root  => '/var/www/devstack',
+    www_root  => $path,
   }
 }
