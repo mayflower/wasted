@@ -5,6 +5,7 @@ class component::mysql (
 ) {
 
   anchor { 'component::mysql::begin': } ->
+    class {'::mysql::client': } ->
     class {'::mysql::server': } ->
     mysql::db { $db_name:
       user     => $db_user,
