@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+require 'yaml'
+
 if Vagrant.has_plugin?('vagrant-vbguest')
   class GuestAdditionsFixer < VagrantVbguest::Installers::Ubuntu
     def install(opts=nil, &block)
