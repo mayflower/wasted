@@ -12,8 +12,11 @@ if Vagrant.has_plugin?('vagrant-vbguest')
   end
 end
 
-provider = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
-cnf      = YAML::load(File.open(File.expand_path('../devstack.yaml', __FILE__)))
+provider   = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
+configfn   = Dir.glob('*/devstack.yaml', File::FNM_DOTMATCH)[0]
+relbasedir = File.dirname(configfn)
+vagrantdir = relbasedir == '..' ? '.' : 'vagrant'
+cnf        = YAML::load(File.open(configfn))
 
 Vagrant.configure("2") do |config|
   config.vm.box = cnf['box_name']
@@ -49,17 +52,19 @@ Vagrant.configure("2") do |config|
   end
 
   # Install r10k using the shell provisioner and download the Puppet modules
-  config.vm.provision :shell, :path => 'vagrant/puppet-bootstrap.sh'
+  config.vm.provision :shell, :path => File.join(vagrantdir, 'puppet-bootstrap.sh')
 
-  config.vm.synced_folder './', cnf['path']
+  config.vm.synced_folder "#{relbasedir}/", cnf['path']
   config.vm.network :private_network, :ip => cnf['ip']
+
+  config.vm.synced_folder relbasedir, '/vagrant'
 
   config.vm.provision :hostmanager if Vagrant.has_plugin?('vagrant-hostmanager')
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path    = 'vagrant/manifests'
+    puppet.manifests_path    = File.join(vagrantdir, 'manifests')
     puppet.manifest_file     = 'ubuntu_devstack.pp'
-    puppet.module_path       = ['vagrant/modules', 'vagrant/site']
+    puppet.module_path       = ['modules', 'site'].map { |dir| File.join(vagrantdir, dir) }
     puppet.options           = '--verbose'
-    puppet.hiera_config_path = 'vagrant/hiera.yaml'
+    puppet.hiera_config_path = File.join(vagrantdir, 'hiera.yaml')
   end
 end
