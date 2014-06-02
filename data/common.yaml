@@ -9,23 +9,6 @@ mysql::server::root_password: root
 php::fpm::user: vagrant
 php::fpm::group: users
 
-php::extensions:
-  curl: {}
-  json: {}
-  intl: {}
-  mysql: {}
-  apc:
-    package_prefix: php-
-    config:
-      - 'set .anon/apc.stat 1'
-      - 'set .anon/apc.stat_ctime 1'
-  xdebug:
-    config:
-      - 'set .anon/xdebug.max_nesting_level 1000'
-      - 'set .anon/xdebug.remote_enable On'
-      - 'set .anon/xdebug.default_enable On'
-      - 'set .anon/xdebug.remote_connect_back On'
-
 # fixes bugs with vboxfs
 nginx::params::nx_sendfile: off
 nginx::manage_repo: false
