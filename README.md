@@ -36,6 +36,8 @@ git subtree add --prefix vagrant git@github.com:Mayflower/vagrant_generic_devsta
 
 ### Configuration
 All configuration happens in the `devstack.yaml` which gets created when running the bootstrap above.
+You may add a `local_devstack.yaml` in which you can overwrite configuration in devstack.yaml e.g. when using
+different IP or box name.
 
 **TODO** Document devstack.yaml possibilities
 
