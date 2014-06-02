@@ -18,6 +18,12 @@ relbasedir = File.dirname(configfn)
 vagrantdir = relbasedir == '..' ? '.' : 'vagrant'
 cnf        = YAML::load(File.open(configfn))
 
+local_configfn = Dir.glob('*/local_devstack.yaml', File::FNM_DOTMATCH)[0]
+if local_configfn
+  local_cnf      = YAML::load(File.open(local_configfn))
+  cnf = cnf.merge(local_cnf)
+end
+
 Vagrant.configure("2") do |config|
   config.vm.box = cnf['box_name']
   config.vm.hostname = cnf['vhost']
@@ -32,7 +38,6 @@ Vagrant.configure("2") do |config|
   if Vagrant.has_plugin?('vagrant-vbguest')
     config.vbguest.installer = GuestAdditionsFixer
   end
-
 
   if provider == :virtualbox
     config.vm.box_url = 'http://filedump.mayflower.de/baseboxes/ubuntu-14.04-puppet3.4.3-vbox4.3.10.box'
