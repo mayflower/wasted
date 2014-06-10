@@ -1,8 +1,4 @@
 ---
-env: dev
-path: /var/www/app_name
-vhost: app-name.dev
-
 mysql::server::root_password: root
 
 # fixes permission errors
