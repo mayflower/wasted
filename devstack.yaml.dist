@@ -8,6 +8,7 @@ box_name: trusty64
 mysql: true
 postgresql: false
 nodejs: false
+less: false
 
 ## mysql
 mysql::server::root_password: root
