@@ -22,6 +22,11 @@ class ubuntu_devstack {
     Class['component::symfony2']
   }
 
+  if hiera('nodejs', false) {
+    class { 'component::nodejs': } ->
+    Class['component::symfony2']
+  }
+
   # We need this dependency handling because otherwise we get a dependency cycle with Service['nginx'] and apt
   class { 'nginx': }
 }
