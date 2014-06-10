@@ -40,3 +40,8 @@ php::extensions:
       - 'set .anon/xdebug.remote_enable On'
       - 'set .anon/xdebug.default_enable On'
       - 'set .anon/xdebug.remote_connect_back On'
+
+php::fpm::settings:
+  - 'set Date/date.timezone Europe/Berlin'
+php::cli::settings:
+  - 'set Date/date.timezone Europe/Berlin'
