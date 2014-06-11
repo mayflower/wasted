@@ -5,10 +5,13 @@ vhost: app-name.dev
 ip: 192.168.56.112
 box_name: trusty64
 
-mysql: true
-postgresql: false
-nodejs: false
-less: false
+profile::database::mysql: true
+profile::database::postgresql: false
+profile::javascript::nodejs: false
+profile::javascript::less: false
+profile::app::symfony2: true
+profile::app::php_vhost: false
+profile::app::zend_framework1: false
 
 ## mysql
 component::mysql::root_password: root
