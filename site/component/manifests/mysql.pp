@@ -1,17 +1,18 @@
 class component::mysql (
-  $db_name = 'dev',
-  $db_user = 'dev',
-  $db_pw   = 'dev',
+  $root_password = 'root',
+  $databases = {}
 ) {
+
+  validate_string($root_password)
+  validate_hash($databases)
 
   anchor { 'component::mysql::begin': } ->
     class {'::mysql::client': } ->
     class {'::mysql::server': } ->
-    mysql::db { $db_name:
-      user     => $db_user,
-      password => $db_pw,
-      host     => 'localhost',
-      grant    => ['ALL'],
-    } ->
   anchor { 'component::mysql::end': }
+
+  create_resources('::mysql::db', $databases, {
+    require => Anchor['component::mysql::begin'],
+    before  => Anchor['component::mysql::end']
+  })
 }

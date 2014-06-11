@@ -11,8 +11,13 @@ nodejs: false
 less: false
 
 ## mysql
-mysql::server::root_password: root
-
+component::mysql::root_password: root
+component::mysql::databases:
+  db_name:
+    user: dev
+    password: dev
+    host: localhost
+    grant: ['ALL']
 
 ## postgresql
 # component::postgresql::postgres_password: postgres
