@@ -7,22 +7,14 @@ class profile::app (
   validate_bool($php_vhost)
   validate_bool($zend_framework1)
 
-  anchor { 'profile::app::begin': } ->
-  anchor { 'profile::app::end': }
-
+  # these dangle around for the mean time otherwise causing dependency cycles with nginx, should work (TM)
   if $symfony2 {
-    Anchor['profile::app::begin'] ->
-    class { 'component::symfony2': } ->
-    Anchor['profile::app::end']
+    class { 'component::symfony2': }
   }
   if $php_vhost {
-    Anchor['profile::app::begin'] ->
-    class { 'component::php_vhost': } ->
-    Anchor['profile::app::end']
+    class { 'component::php_vhost': }
   }
   if $zend_framework1 {
-    Anchor['profile::app::begin'] ->
-    class { 'component::zend_framework1': } ->
-    Anchor['profile::app::end']
+    class { 'component::zend_framework1': }
   }
 }
