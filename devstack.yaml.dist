@@ -7,6 +7,7 @@ box_name: trusty64
 
 profile::database::mysql: true
 profile::database::postgresql: false
+profile::database::redis: false
 profile::javascript::nodejs: false
 profile::javascript::less: false
 profile::app::symfony2: true
