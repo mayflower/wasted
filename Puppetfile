@@ -9,3 +9,6 @@ mod 'jfryman/nginx',         '0.0.9'
 mod 'mayflower/php',         '1.0.1'
 mod 'willdurand/nodejs',     '1.6.4'
 mod 'maestrodev/wget',       '1.4.3'
+
+mod 'hhvm',
+    :git => 'git://github.com/Mayflower/puppet-hhvm'

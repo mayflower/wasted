@@ -33,6 +33,7 @@ Vagrant.configure("2") do |config|
     config.hostmanager.enabled = true
     config.hostmanager.manage_host = true
     config.hostmanager.include_offline = true
+    config.hostmanager.aliases = "hhvm.#{cnf['vhost']}"
   end
 
   if Vagrant.has_plugin?('vagrant-vbguest')
