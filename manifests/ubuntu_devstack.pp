@@ -6,6 +6,7 @@ class ubuntu_devstack {
 
   # augeas will *not* work (quantal cloudimage basebox) if we do not install the ruby lib
   package { 'libaugeas-ruby': }  ->
+  class { 'profile::default': } ->
   class { 'profile::webserver': } ->
   class { 'profile::database': } ->
   class { 'profile::javascript': } ->
