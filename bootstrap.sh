@@ -2,7 +2,13 @@
 
 set -e
 
-readonly DIR=$(readlink -m $(dirname $0))
+if [[ "$OSTYPE" == *darwin* ]]
+then
+  readonly DIR="$(cd "$(dirname $0)" && pwd -P)"
+else
+  readonly DIR=$(readlink -m $(dirname $0))
+fi
+
 
 main() {
     echo "[bootstrap] link Vagrantfile to project root" && \
