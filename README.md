@@ -1,5 +1,9 @@
 # WASTED
-**Web Application Stack for Extreme Development**
+**W**​eb
+**A**​pplication
+**ST**​ack for
+**E**​xtreme
+**D**​evelopment
 
 This is a generic vagrant box (ubuntu) with php, mysql, composer and nginx and preconfigured vhosts for:
  - Symfony2
