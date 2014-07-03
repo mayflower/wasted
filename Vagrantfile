@@ -14,8 +14,8 @@ end
 
 provider   = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
 configfn   = Dir.glob('*/devstack.yaml', File::FNM_DOTMATCH)[0]
-relbasedir = File.dirname(configfn)
-vagrantdir = relbasedir == '..' ? '.' : 'vagrant'
+basedir = File.absolute_path(File.dirname(configfn))
+vagrantdir = File.absolute_path(basedir == '..' ? '.' : 'vagrant')
 cnf        = YAML::load(File.open(configfn))
 
 local_configfn = Dir.glob('*/local_devstack.yaml', File::FNM_DOTMATCH)[0]
@@ -60,10 +60,10 @@ Vagrant.configure("2") do |config|
   # Install r10k using the shell provisioner and download the Puppet modules
   config.vm.provision :shell, :path => File.join(vagrantdir, 'puppet-bootstrap.sh')
 
-  config.vm.synced_folder "#{relbasedir}/", cnf['path']
+  config.vm.synced_folder "#{basedir}/", cnf['path']
   config.vm.network :private_network, :ip => cnf['ip']
 
-  config.vm.synced_folder relbasedir, '/vagrant'
+  config.vm.synced_folder basedir, '/vagrant'
 
   config.vm.provision :hostmanager if Vagrant.has_plugin?('vagrant-hostmanager')
   config.vm.provision :puppet do |puppet|
