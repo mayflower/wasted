@@ -1,4 +1,5 @@
-# vagrant_generic_devstack
+# WASTED
+**Web Application Stack for Extreme Development**
 
 This is a generic vagrant box (ubuntu) with php, mysql, composer and nginx and preconfigured vhosts for:
  - Symfony2
@@ -30,7 +31,7 @@ All git subtree commands accept a `--squash` flag to squash the subtree commits 
 
 ### Adding to your project
 ```
-git subtree add --prefix vagrant git@github.com:Mayflower/vagrant_generic_devstack master
+git subtree add --prefix vagrant git@github.com:Mayflower/wasted master
 ./vagrant/bootstrap.sh
 ```
 
@@ -44,16 +45,16 @@ different IP or box name.
 ### Updating
 To update the devstack use:
 ```
-git subtree pull --prefix vagrant git@github.com:Mayflower/vagrant_generic_devstack master
+git subtree pull --prefix vagrant git@github.com:Mayflower/wasted master
 ```
 
 ## Contributing
 If you have push access to the devstack you may create a new branch directly and then submit a pull request:
 ```
-git subtree push --prefix vagrant git@github.com:Mayflower/vagrant_generic_devstack $BRANCH_NAME
+git subtree push --prefix vagrant git@github.com:Mayflower/wasted $BRANCH_NAME
 ```
 
 Otherwise please fork the devstack and then create a pull request from your fork:
 ```
-git subtree push --prefix vagrant git@github.com:$YOUR_USER/vagrant_generic_devstack $BRANCH_NAME
+git subtree push --prefix vagrant git@github.com:$YOUR_USER/wasted $BRANCH_NAME
 ```
