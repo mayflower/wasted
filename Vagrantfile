@@ -70,7 +70,8 @@ Vagrant.configure("2") do |config|
     puppet.manifests_path    = File.join(vagrantdir, 'manifests')
     puppet.manifest_file     = 'ubuntu_devstack.pp'
     puppet.module_path       = ['modules', 'site'].map { |dir| File.join(vagrantdir, dir) }
-    puppet.options           = '--verbose'
+    puppet.options           = ["--graphdir=/vagrant/vagrant/graphs --graph --environment dev"] if not ENV["VAGRANT_PUPPET_DEBUG"]
+    puppet.options           = ["--debug --graphdir=/vagrant/vagrant/graphs --graph --environment dev"] if ENV["VAGRANT_PUPPET_DEBUG"]
     puppet.hiera_config_path = File.join(vagrantdir, 'hiera.yaml')
   end
 end
