@@ -52,6 +52,14 @@ To update the devstack use:
 git subtree pull --prefix vagrant git@github.com:Mayflower/wasted master
 ```
 
+### LXC
+If you are using LXC (instead of VirtualBox) obviously you should have `lxc` and a recent kernel (>3.5) installed.
+Make sure to configure sane defaults in /etc/lxc/default.conf:
+
+    lxc.network.type = veth
+    lxc.network.link = virbr0
+    lxc.network.flags = up
+
 ## Contributing
 If you have push access to the devstack you may create a new branch directly and then submit a pull request:
 ```
