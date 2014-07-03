@@ -2,6 +2,7 @@
 
 .vagrant
 /modules/*
+/graphs/*
 
 /config/config
 
