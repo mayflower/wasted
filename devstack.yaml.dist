@@ -1,5 +1,6 @@
 ---
 ## general configuration
+## create a local_devstack.yaml to override with personal settings
 path: /var/www/app_name
 vhost: app-name.dev
 ip: 192.168.56.112
@@ -8,11 +9,13 @@ box_name: trusty64
 profile::database::mysql: true
 profile::database::postgresql: false
 profile::database::redis: false
-profile::webserver::hhvm: true
+profile::webserver::php: true
+profile::webserver::hhvm: false
 profile::javascript::nodejs: false
 profile::javascript::less: false
 profile::app::symfony2: true
 profile::app::php_vhost: false
+profile::app::standalone_app: false
 profile::app::zend_framework1: false
 
 ## mysql
@@ -33,6 +36,9 @@ component::mysql::databases:
 #     user: 'dev'
 #     password: 'dev'
 
+# component::standalone_app::port: 5000
+# component::standalone_app::prefix: api  # results in proxy from $vhost/api to localhost:$port
+# component::standalone_app::path: /var/www/app_name/static
 
 ## php
 php::extensions:
