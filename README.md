@@ -76,9 +76,9 @@ Make sure to configure sane defaults in /etc/lxc/default.conf:
 If you do not (yet) have a project to use with WASTED the easiest way to test WASTED is to create a dummy repository:
 ```
 # create directory, switch to new directory and initialize git repository
-mkdir dummy && cd dummy && git init
+mkdir dummy_project && cd dummy_project && git init
 # create a file and commit it to ensure there is a HEAD for the subtree command to work with
-touch dummy && git add dummy && git commit dummy -m "Initial commit"
+touch dummy_file && git add dummy_file && git commit dummy_file -m "Initial commit"
 ```
 Your dummy repository is now ready for use with WASTED. Just follow the instruction from the [Setup](#setup) section.
 
