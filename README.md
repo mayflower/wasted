@@ -49,7 +49,6 @@ To update the devstack use (from the root of your git repository):
 git subtree pull --prefix vagrant git@github.com:Mayflower/wasted master
 ```
 
-
 ## Usage
 Once you completed the steps described in the [Setup](#setup) section just do a `vagrant up`.
 r10k will first bootstrap your local Puppet modules and after that the provisioning process will be started.
@@ -83,22 +82,23 @@ touch dummy_file && git add dummy_file && git commit dummy_file -m "Initial comm
 Your dummy repository is now ready for use with WASTED. Just follow the instruction from the [Setup](#setup) section.
 
 ## Contributing
-For development on WASTED create a staging directory and clone the WASTED repository directly into the `vagrant` directory.
+For development of WASTED create a staging directory and clone the WASTED repository directly into the `vagrant` directory.
 ```
 mkdir wasted_development && cd wasted_development
 git clone git@github.com:Mayflower/wasted vagrant
 ```
 Now you can hack on WASTED code as you would usually do while still retaining the ability to bootstrap and use it like described in the [setup](#setup) section.
 
+### Merge changes back from within your project
+If WASTED was subtree merged into your project and changes were made inside the `vagrant` directory that you would like to contribute, you need to use `git subtree push`.
 
-If you have push access to the devstack you may create a new branch directly and then submit a pull request:
+If you have push access you may create a new branch directly and then submit a pull request:
 ```
 git subtree push --prefix vagrant git@github.com:Mayflower/wasted $BRANCH_NAME
 ```
 
-Otherwise please fork the devstack and then create a pull request from your fork:
+Otherwise please fork this repository and then create a pull request from your fork:
 ```
 git subtree push --prefix vagrant git@github.com:$YOUR_USER/wasted $BRANCH_NAME
 ```
-
 
