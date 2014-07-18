@@ -14,8 +14,8 @@ end
 
 provider   = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
 configfn   = Dir.glob('*/devstack.yaml', File::FNM_DOTMATCH)[0]
-basedir = File.absolute_path(File.dirname(configfn))
-vagrantdir = File.absolute_path(basedir == '..' ? '.' : 'vagrant')
+basedir    = File.absolute_path(File.dirname(configfn))
+vagrantdir = File.absolute_path(File.dirname(configfn) == '..' ? '.' : 'vagrant')
 cnf        = YAML::load(File.open(configfn))
 
 local_configfn = Dir.glob('*/local_devstack.yaml', File::FNM_DOTMATCH)[0]

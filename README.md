@@ -54,6 +54,10 @@ Once you completed the steps described in the [Setup](#setup) section just do a 
 r10k will first bootstrap your local Puppet modules and after that the provisioning process will be started.
 This might not work if you are using non-Virtualbox providers.
 
+### Additional information for windows users
+ * You have to run `vagrant up` from the vagrant subdirectory
+ * You have to edit your `C:\Windows\System32\drivers\etc\hosts` file manually
+
 ## Notes
 ### Recommended Plugins
 The config makes use of but does not require:
