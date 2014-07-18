@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
   end
 
   if provider == :virtualbox
-    config.vm.box_url = 'http://filedump.mayflower.de/baseboxes/ubuntu-14.04-puppet3.4.3-vbox4.3.12.box'
+    config.vm.box_url = 'http://filedump.mayflower.de/baseboxes/ubuntu-14.04-puppet3.4.3-vbox4.3.14.box'
   elsif provider == :lxc
     config.vm.box_url = 'http://filedump.mayflower.de/baseboxes/ubuntu-14.04-puppet3.4.3-lxc.box'
   else
