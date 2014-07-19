@@ -11,6 +11,8 @@ mod 'mayflower/hhvm',        '0.1.1'
 mod 'willdurand/nodejs',     '1.6.4'
 mod 'maestrodev/wget',       '1.4.3'
 
+
+# support to turn off sendfile is not included in 0.0.9
 mod 'nginx',
     :git => 'git://github.com/jfryman/puppet-nginx.git',
     :ref => '61b569ca02e11a86c1abf647490b5f98a4aee03c'
