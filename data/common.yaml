@@ -14,7 +14,7 @@ hhvm::config::group: users
 hhvm::config::port: 9090
 
 # fixes bugs with vboxfs
-nginx::params::nx_sendfile: off
+nginx::sendfile: 'off'
 nginx::manage_repo: false
 
 apt::always_apt_update: true
