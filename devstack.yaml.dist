@@ -29,8 +29,7 @@ component::mysql::databases:
 
 ## postgresql
 # component::postgresql::postgres_password: postgres
-# component::postgresql::extensions:
-#     - postgresql-9.3-postgis-2.1
+# component::postgresql::postgis: false
 # component::postgresql::databases:
 #   db_name:
 #     user: 'dev'

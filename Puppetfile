@@ -1,12 +1,18 @@
 forge "https://forge.puppetlabs.com"
 
-mod 'puppetlabs/stdlib',     '4.2.2'
-mod 'puppetlabs/apt',        '1.5.0'
+mod 'puppetlabs/stdlib',     '4.3.2'
+mod 'puppetlabs/apt',        '1.5.1'
 mod 'puppetlabs/concat',     '1.1.0'
-mod 'puppetlabs/mysql',      '2.2.3'
-mod 'puppetlabs/postgresql', '3.3.3'
-mod 'jfryman/nginx',         '0.0.9'
+mod 'puppetlabs/mysql',      '2.3.1'
+mod 'puppetlabs/postgresql', '3.4.0'
+# mod 'jfryman/nginx',         '0.0.9'
 mod 'mayflower/php',         '1.1.0'
 mod 'mayflower/hhvm',        '0.1.1'
 mod 'willdurand/nodejs',     '1.6.4'
 mod 'maestrodev/wget',       '1.4.3'
+
+
+# support to turn off sendfile is not included in 0.0.9
+mod 'nginx',
+    :git => 'git://github.com/jfryman/puppet-nginx.git',
+    :ref => '61b569ca02e11a86c1abf647490b5f98a4aee03c'
