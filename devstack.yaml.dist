@@ -8,6 +8,7 @@ box_name: trusty64
 
 profile::database::mysql: true
 profile::database::postgresql: false
+profile::database::mongodb: false
 profile::database::redis: false
 profile::webserver::php: true
 profile::webserver::hhvm: false
@@ -26,6 +27,13 @@ component::mysql::databases:
     password: dev
     host: localhost
     grant: ['ALL']
+
+## mongodb
+# component::mongodb::root_password: root
+# component::mongodb::databases:
+#   db_name:
+#     user: dev
+#     password: dev
 
 ## postgresql
 # component::postgresql::postgres_password: postgres
