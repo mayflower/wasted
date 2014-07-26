@@ -29,7 +29,6 @@ component::mysql::databases:
     grant: ['ALL']
 
 ## mongodb
-# component::mongodb::root_password: root
 # component::mongodb::databases:
 #   db_name:
 #     user: dev
