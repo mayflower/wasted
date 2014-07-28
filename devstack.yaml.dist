@@ -16,6 +16,7 @@ profile::database::postgresql: false
 profile::database::mongodb: false
 profile::database::redis: false
 
+profile::webserver::type: nginx
 profile::webserver::php: true
 profile::webserver::hhvm: false
 

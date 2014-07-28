@@ -1,4 +1,5 @@
 class profile::webserver (
+  $type = 'nginx',
   $php  = true,
   $hhvm = false,
 ) {
@@ -6,7 +7,7 @@ class profile::webserver (
   validate_bool($hhvm)
 
   anchor { 'profile::webserver::begin': } ->
-    class { 'component::nginx': } ->
+    class { "component::${type}": } ->
   anchor { 'profile::webserver::end': }
 
   if $php {
