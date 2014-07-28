@@ -10,11 +10,12 @@ php::fpm::user: vagrant
 php::fpm::group: users
 hhvm::config::user: vagrant
 hhvm::config::group: users
-
 hhvm::config::port: 9090
 
 # fixes bugs with vboxfs
 nginx::sendfile: 'off'
+apache::sendfile: 'off'
+
 nginx::manage_repo: false
 
 apt::always_apt_update: true

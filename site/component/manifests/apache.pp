@@ -3,7 +3,9 @@ class component::apache (
 ) {
 
   anchor { 'component::apache::begin': } ->
-    class { '::apache': } ->
+    class { '::apache':
+      default_vhost => false,
+    } ->
   anchor { 'component::apche::end': }
 
   if $php {

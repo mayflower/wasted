@@ -42,6 +42,17 @@ class component::php_vhost (
       }
     }
 
+    apache: {
+      apache::vhost { $vhost:
+        docroot         => $path,
+        default_vhost   => true,
+        port            => 80,
+        serveradmin     => "vagrant@${vhost}",
+        override        => 'all',
+        custom_fragment => 'ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/$1',
+      }
+    }
+
     default: {
       fail("Webserver type ${profile::webserver::type} not supported by ${name}")
     }
