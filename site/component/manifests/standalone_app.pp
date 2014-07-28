@@ -6,22 +6,35 @@ class component::standalone_app (
   $prefix     = 'api'
 ) {
 
-  nginx::resource::vhost { "${vhost}-${vhost_port}-standalone":
-    server_name => [$vhost],
-    www_root    => $path,
-    listen_port => $vhost_port,
-    index_files => ['index.html'],
-    try_files   => ['$uri', '$uri/', '/index.html', '=404'],
-  }
+  case $profile::webserver::type {
+    nginx: {
+      nginx::resource::vhost { "${vhost}-${vhost_port}-standalone":
+        server_name => [$vhost],
+        www_root    => $path,
+        listen_port => $vhost_port,
+        index_files => ['index.html'],
+        try_files   => ['$uri', '$uri/', '/index.html', '=404'],
+      }
 
-  nginx::resource::upstream { 'standalone_app':
-    members => [
-      "localhost:${port}",
-    ],
-  }
+      nginx::resource::upstream { 'standalone_app':
+        members => [
+          "localhost:${port}",
+        ],
+      }
 
-  nginx::resource::location { "/${prefix}":
-    vhost => "${vhost}-${vhost_port}-standalone",
-    proxy => 'http://standalone_app',
+      nginx::resource::location { "/${prefix}":
+        vhost => $vhost,
+        proxy => 'http://standalone_app',
+      }
+
+      nginx::resource::location { "/${prefix}":
+        vhost => "${vhost}-${vhost_port}-standalone",
+        proxy => 'http://standalone_app',
+      }
+    }
+
+    default: {
+      fail("Webserver type ${profile::webserver::type} not supported by ${name}")
+    }
   }
 }
