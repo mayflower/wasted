@@ -62,6 +62,20 @@ component::mysql::databases:
 
 # component::yii1::path: /var/www/app_name/app # path to folder containing index.php
 
+## custom apache options
+#component::apache::vhosts:
+#    alarm.foo:
+#        docroot: '/srv/www'
+#        port: 80
+#
+#component::apache::mods:
+#    - ssl
+#apache::mod::ssl::ssl_compression: false
+#
+#component::apache::custom_mods:
+#    foobar:
+#       package: libapache2-mod-foobar
+
 ## php
 php::extensions:
   curl: {}
