@@ -4,6 +4,8 @@ class profile::webserver (
   $hhvm = false,
 ) {
 
+  validate_re($type, ['^nginx$', '^apache$'])
+  validate_bool($php)
   validate_bool($hhvm)
 
   anchor { 'profile::webserver::begin': } ->
