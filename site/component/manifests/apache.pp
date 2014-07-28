@@ -1,6 +1,10 @@
 class component::apache (
   $php = false,
+  $vhosts = {},
 ) {
+
+  validate_bool($php)
+  validate_hash($vhosts)
 
   anchor { 'component::apache::begin': } ->
     class { '::apache':
@@ -13,4 +17,5 @@ class component::apache (
     ::apache::mod { 'proxy_fcgi': }
   }
 
+  create_resources('::apache::vhost', $vhosts)
 }
