@@ -9,7 +9,9 @@ class profile::webserver (
   validate_bool($hhvm)
 
   anchor { 'profile::webserver::begin': } ->
-    class { "component::${type}": } ->
+    class { "component::${type}":
+      php => $php,
+    } ->
   anchor { 'profile::webserver::end': }
 
   if $php {
@@ -17,6 +19,7 @@ class profile::webserver (
     class { 'component::php': } ->
     Anchor['profile::webserver::end']
   }
+
   if $hhvm {
     Anchor['profile::webserver::begin'] ->
     class { 'component::hhvm': } ->
