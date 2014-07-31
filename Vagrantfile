@@ -60,10 +60,10 @@ Vagrant.configure("2") do |config|
   # Install r10k using the shell provisioner and download the Puppet modules
   config.vm.provision :shell, :path => File.join(vagrantdir, 'puppet-bootstrap.sh')
 
-  config.vm.synced_folder "#{basedir}/", cnf['path']
+  config.vm.synced_folder "#{basedir}/", cnf['path'], :nfs => cnf['nfs']
   config.vm.network :private_network, :ip => cnf['ip']
 
-  config.vm.synced_folder basedir, '/vagrant'
+  config.vm.synced_folder basedir, '/vagrant', :nfs => cnf['nfs']
 
   config.vm.provision :hostmanager if Vagrant.has_plugin?('vagrant-hostmanager')
   config.vm.provision :puppet do |puppet|
