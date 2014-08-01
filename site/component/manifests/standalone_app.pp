@@ -1,12 +1,14 @@
 class component::standalone_app (
   $path   = hiera('path', '/var/www/app_name'),
-  $vhost  = hiera('vhost', 'app-name.dev'),
-  $port   = 5000,
-  $prefix = 'api'
+  $vhost      = hiera('vhost', 'app-name.dev'),
+  $vhost_port = 80,
+  $port       = 5000,
+  $prefix     = 'api'
 ) {
 
-  nginx::resource::vhost { $vhost:
+  nginx::resource::vhost { "${vhost}-${vhost_port}":
     www_root    => $path,
+    listen_port => $vhost_port,
     index_files => ['index.html'],
     try_files   => ['$uri', '$uri/', '/index.html', '=404'],
   }
