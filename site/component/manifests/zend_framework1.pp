@@ -1,10 +1,13 @@
 class component::zend_framework1 (
-  $path = hiera('path', '/var/www/app_name'),
-  $vhost = hiera('vhost', 'app-name.dev'),
-  $env = hiera('env', 'dev'),
+  $path       = hiera('path', '/var/www/app_name'),
+  $vhost      = hiera('vhost', 'app-name.dev'),
+  $vhost_port = 80,
+  $env        = hiera('env', 'dev'),
 ) {
 
-  nginx::resource::vhost { $vhost:
+  nginx::resource::vhost { "${vhost}-${vhost_port}-zend_framework1":
+    server_name         => [$vhost],
+    listen_port         => $vhost_port,
     www_root            => "${path}/public",
     fastcgi             => '127.0.0.1:9000',
     location_cfg_append => {
@@ -24,7 +27,9 @@ class component::zend_framework1 (
   }
 
   if defined(Class['::hhvm']) {
-    nginx::resource::vhost { "hhvm.${vhost}":
+    nginx::resource::vhost { "hhvm.${vhost}-${vhost_port}-zend_framework1":
+      server_name         => "hhvm.${vhost}",
+      listen_port         => $vhost_port,
       www_root            => "${path}/public",
       fastcgi             => '127.0.0.1:9090',
       location_cfg_append => {

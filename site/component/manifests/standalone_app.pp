@@ -6,7 +6,8 @@ class component::standalone_app (
   $prefix     = 'api'
 ) {
 
-  nginx::resource::vhost { "${vhost}-${vhost_port}":
+  nginx::resource::vhost { "${vhost}-${vhost_port}-standalone":
+    server_name => [$vhost],
     www_root    => $path,
     listen_port => $vhost_port,
     index_files => ['index.html'],

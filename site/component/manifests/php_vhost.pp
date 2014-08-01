@@ -1,13 +1,16 @@
 class component::php_vhost (
-  $path = hiera('path', '/var/www/app_name'),
-  $vhost = hiera('vhost', 'app-name.dev'),
-  $env = hiera('env', 'dev'),
+  $path       = hiera('path', '/var/www/app_name'),
+  $vhost      = hiera('vhost', 'app-name.dev'),
+  $vhost_port = 80,
+  $env        = hiera('env', 'dev'),
 ) {
 
   ## create default vhost
-  nginx::resource::vhost { $vhost:
-    ensure   => present,
-    www_root => $path,
+  nginx::resource::vhost { "${vhost}-${vhost_port}-php" :
+    ensure      => present,
+    server_name => [$vhost],
+    www_root    => $path,
+    listen_port => $vhost_port,
   }
   ## create location to direct .php to the fpm pool
   nginx::resource::location { 'devstack-php-rewrite':
@@ -20,9 +23,11 @@ class component::php_vhost (
 
   if defined(Class['::hhvm']) {
     ## create default vhost
-    nginx::resource::vhost { "hhvm.${vhost}":
-      ensure   => present,
-      www_root => $path,
+    nginx::resource::vhost { "hhvm.${vhost}-${vhost_port}-php-hhvm":
+      ensure      => present,
+      server_name => ["hhvm.${vhost}"],
+      www_root    => $path,
+      listen_port => $vhost_port,
     }
     ## create location to direct .php to the fpm pool
     nginx::resource::location { 'hhvm-devstack-php-rewrite':
