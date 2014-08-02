@@ -1,5 +1,5 @@
 class component::standalone_app (
-  $path   = hiera('path', '/var/www/app_name'),
+  $path       = hiera('path', '/var/www/app_name'),
   $vhost      = hiera('vhost', 'app-name.dev'),
   $vhost_port = 80,
   $port       = 5000,
@@ -21,7 +21,7 @@ class component::standalone_app (
   }
 
   nginx::resource::location { "/${prefix}":
-    vhost => $vhost,
+    vhost => "${vhost}-${vhost_port}-standalone",
     proxy => 'http://standalone_app',
   }
 }

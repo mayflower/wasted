@@ -23,13 +23,13 @@ class component::symfony2 (
   }
 
   nginx::resource::location { '@rewriteapp':
-    vhost         => $vhost,
+    vhost         => "${vhost}-${vhost_port}-symfony2",
     www_root      => "${path}/web",
     rewrite_rules => ["^(.*)\$ /${index_file}/\$1 last"]
   }
 
   nginx::resource::location { "~ ^/${location_index}\\.php(/|\$)":
-    vhost               => $vhost,
+    vhost               => "${vhost}-${vhost_port}-symfony2",
     www_root            => "${path}/web",
     fastcgi             => '127.0.0.1:9000',
     fastcgi_split_path  => '^(.+\.php)(/.+)$',
@@ -51,14 +51,14 @@ class component::symfony2 (
 
     nginx::resource::location { 'hhvm-sf2-rewrite':
       location      => '@rewriteapp',
-      vhost         => "hhvm.${vhost}",
+      vhost         => "hhvm.${vhost}-${vhost_port}-symfony2",
       www_root      => "${path}/web",
       rewrite_rules => ["^(.*)\$ /${index_file}/\$1 last"]
     }
 
     nginx::resource::location { 'hhvm-sf2-php':
       location            => "~ ^/${location_index}\\.php(/|\$)",
-      vhost               => "hhvm.${vhost}",
+      vhost               => "hhvm.${vhost}-${vhost_port}-symfony2",
       www_root            => "${path}/web",
       fastcgi             => '127.0.0.1:9090',
       fastcgi_split_path  => '^(.+\.php)(/.+)$',

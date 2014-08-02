@@ -21,14 +21,14 @@ class component::zend_framework1 (
 
   nginx::resource::location{ "${vhost}_static":
     location  => '~ ^/(style|images|scripts)/',
-    vhost     => $vhost,
+    vhost     => "${vhost}-${vhost_port}-zend_framework1",
     www_root  => "${path}/public",
     try_files => ['$uri', '=404']
   }
 
   if defined(Class['::hhvm']) {
     nginx::resource::vhost { "hhvm.${vhost}-${vhost_port}-zend_framework1":
-      server_name         => "hhvm.${vhost}",
+      server_name         => ["hhvm.${vhost}"],
       listen_port         => $vhost_port,
       www_root            => "${path}/public",
       fastcgi             => '127.0.0.1:9090',
@@ -43,7 +43,7 @@ class component::zend_framework1 (
 
     nginx::resource::location{ "hhvm.${vhost}_static":
       location  => '~ ^/(style|images|scripts)/',
-      vhost     => "hhvm.${vhost}",
+      vhost     => "hhvm.${vhost}-${vhost_port}-zend_framework1",
       www_root  => "${path}/public",
       try_files => ['$uri', '=404']
     }

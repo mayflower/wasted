@@ -15,7 +15,7 @@ class component::php_vhost (
   ## create location to direct .php to the fpm pool
   nginx::resource::location { 'devstack-php-rewrite':
     location  => '~ \.php$',
-    vhost     => $vhost,
+    vhost     => "${vhost}-${vhost_port}-php",
     fastcgi   => '127.0.0.1:9000',
     try_files => ['$uri =404'],
     www_root  => $path,
@@ -23,7 +23,7 @@ class component::php_vhost (
 
   if defined(Class['::hhvm']) {
     ## create default vhost
-    nginx::resource::vhost { "hhvm.${vhost}-${vhost_port}-php-hhvm":
+    nginx::resource::vhost { "hhvm.${vhost}-${vhost_port}-php":
       ensure      => present,
       server_name => ["hhvm.${vhost}"],
       www_root    => $path,
@@ -32,7 +32,7 @@ class component::php_vhost (
     ## create location to direct .php to the fpm pool
     nginx::resource::location { 'hhvm-devstack-php-rewrite':
       location  => '~ \.php$',
-      vhost     => "hhvm.${vhost}",
+      vhost     => "hhvm.${vhost}-${vhost_port}-php",
       fastcgi   => '127.0.0.1:9090',
       try_files => ['$uri =404'],
       www_root  => $path,
