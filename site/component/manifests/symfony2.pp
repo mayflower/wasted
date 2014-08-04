@@ -1,7 +1,8 @@
 class component::symfony2 (
-  $path = hiera('path', '/var/www/app_name'),
-  $vhost = hiera('vhost', 'app-name.dev'),
-  $env = hiera('env', 'dev'),
+  $path       = hiera('path', '/var/www/app_name'),
+  $vhost      = hiera('vhost', 'app-name.dev'),
+  $vhost_port = 80,
+  $env        = hiera('env', 'dev'),
 ) {
 
   $index_file = $env ? {
@@ -13,20 +14,22 @@ class component::symfony2 (
     default           => 'app'
   }
 
-  nginx::resource::vhost { $vhost:
+  nginx::resource::vhost { "${vhost}-${vhost_port}-symfony2":
+    server_name => [$vhost],
+    listen_port => $vhost_port,
     www_root    => "${path}/web",
     index_files => [index_file],
     try_files   => ['$uri', '@rewriteapp'],
   }
 
   nginx::resource::location { '@rewriteapp':
-    vhost         => $vhost,
+    vhost         => "${vhost}-${vhost_port}-symfony2",
     www_root      => "${path}/web",
     rewrite_rules => ["^(.*)\$ /${index_file}/\$1 last"]
   }
 
   nginx::resource::location { "~ ^/${location_index}\\.php(/|\$)":
-    vhost               => $vhost,
+    vhost               => "${vhost}-${vhost_port}-symfony2",
     www_root            => "${path}/web",
     fastcgi             => '127.0.0.1:9000',
     fastcgi_split_path  => '^(.+\.php)(/.+)$',
@@ -38,7 +41,9 @@ class component::symfony2 (
   }
 
   if defined(Class['::hhvm']) {
-    nginx::resource::vhost { "hhvm.${vhost}":
+    nginx::resource::vhost { "hhvm.${vhost}-${vhost_port}-symfony2":
+      server_name => ["hhvm.${vhost}"],
+      listen_port => $vhost_port,
       www_root    => "${path}/web",
       index_files => [index_file],
       try_files   => ['$uri', '@rewriteapp'],
@@ -46,14 +51,14 @@ class component::symfony2 (
 
     nginx::resource::location { 'hhvm-sf2-rewrite':
       location      => '@rewriteapp',
-      vhost         => "hhvm.${vhost}",
+      vhost         => "hhvm.${vhost}-${vhost_port}-symfony2",
       www_root      => "${path}/web",
       rewrite_rules => ["^(.*)\$ /${index_file}/\$1 last"]
     }
 
     nginx::resource::location { 'hhvm-sf2-php':
       location            => "~ ^/${location_index}\\.php(/|\$)",
-      vhost               => "hhvm.${vhost}",
+      vhost               => "hhvm.${vhost}-${vhost_port}-symfony2",
       www_root            => "${path}/web",
       fastcgi             => '127.0.0.1:9090',
       fastcgi_split_path  => '^(.+\.php)(/.+)$',
