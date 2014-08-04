@@ -98,11 +98,11 @@ If WASTED was subtree merged into your project and changes were made inside the 
 
 If you have push access you may create a new branch directly and then submit a pull request:
 ```
-git subtree push --prefix vagrant https://github.com/Mayflower/wasted.git $BRANCH_NAME
+git subtree push --prefix vagrant git@github.com:Mayflower/wasted $BRANCH_NAME
 ```
 
 Otherwise please fork this repository and then create a pull request from your fork:
 ```
-git subtree push --prefix vagrant https://github.com/Mayflower/wasted.git $BRANCH_NAME
+git subtree push --prefix vagrant git@github.com:$YOUR_USER/wasted $BRANCH_NAME
 ```
 
