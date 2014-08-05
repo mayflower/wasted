@@ -1,11 +1,11 @@
-class component::yii2 (
+class component::yii1 (
   $path = hiera('path', '/var/www/app_name'),
   $vhost = hiera('vhost', 'app-name.dev'),
   $env = hiera('env', 'dev'),
 ) {
 
   nginx::resource::vhost { $vhost:
-    www_root            => "${path}",
+    www_root            => "${path}/public",
     fastcgi             => '127.0.0.1:9000',
     location_cfg_append => {
       fastcgi_index => 'index.php',
@@ -19,7 +19,7 @@ class component::yii2 (
   nginx::resource::location{ "${vhost}_static":
     location  => '~ ^/(css|images|js)/',
     vhost     => $vhost,
-    www_root  => "${path}",
+    www_root  => "${path}/public",
     try_files => ['$uri', '=404']
   }
 }
