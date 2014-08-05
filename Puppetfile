@@ -8,7 +8,7 @@ mod 'puppetlabs/postgresql', '3.4.0'
 mod 'puppetlabs/mongodb',    '0.8.0'
 # mod 'jfryman/nginx',         '0.0.9'
 mod 'mayflower/php',         '1.1.1'
-mod 'mayflower/hhvm',        '0.1.1'
+mod 'mayflower/hhvm',        '0.1.2'
 mod 'willdurand/nodejs',     '1.6.4'
 mod 'maestrodev/wget',       '1.4.3'
 
