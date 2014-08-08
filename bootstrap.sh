@@ -2,13 +2,16 @@
 
 set -e
 
-if [[ "$OSTYPE" == *darwin* ]]
+# First Hipsters, then Bill Gates
+if [[ "$OSTYPE" == *darwin* || "$OSTYPE" == *msys* ]]
 then
-  readonly DIR="$(cd "$(dirname $0)" && pwd -P)"
+  DIR="$(cd "$(dirname $0)" && pwd -P)"
 else
-  readonly DIR=$(readlink -m $(dirname $0))
+  DIR=$(readlink -m $(dirname $0))
 fi
 
+# Prevent IDEs from crying
+readonly DIR
 
 main() {
     echo "[bootstrap] link Vagrantfile to project root" && \
