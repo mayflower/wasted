@@ -1,7 +1,7 @@
 class component::yii1 (
-  $path = hiera('path', '/var/www/app_name'),
+  $path  = hiera('path', '/var/www/app_name'),
   $vhost = hiera('vhost', 'app-name.dev'),
-  $env = hiera('env', 'dev'),
+  $env   = hiera('env', 'dev'),
 ) {
 
   nginx::resource::vhost { $vhost:

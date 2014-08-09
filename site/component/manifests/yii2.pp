@@ -1,7 +1,7 @@
 class component::yii2 (
-  $path = hiera('path', '/var/www/app_name'),
+  $path  = hiera('path', '/var/www/app_name'),
   $vhost = hiera('vhost', 'app-name.dev'),
-  $env = hiera('env', 'dev'),
+  $env   = hiera('env', 'dev'),
 ) {
 
   nginx::resource::vhost { $vhost:
@@ -17,7 +17,7 @@ class component::yii2 (
   }
 
   nginx::resource::location{ "${vhost}_static":
-    location  => '~ ^/(css|images|js)/',
+    location  => '~ ^/(assets/css|images|js)/',
     vhost     => $vhost,
     www_root  => "${path}/web",
     try_files => ['$uri', '=404']
