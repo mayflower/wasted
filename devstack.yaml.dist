@@ -1,6 +1,10 @@
 ---
 ## general configuration
-## create a local_devstack.yaml to override with personal settings
+## modify this file for project-wide settings
+##
+## create a local_devstack.yaml and add it to .gitignore
+## to override with personal settings (e.g. different IP)
+
 path: /var/www/app_name
 vhost: app-name.dev
 ip: 192.168.56.112
@@ -11,13 +15,16 @@ profile::database::mysql: true
 profile::database::postgresql: false
 profile::database::mongodb: false
 profile::database::redis: false
+
 profile::webserver::php: true
 profile::webserver::hhvm: false
+
 profile::javascript::nodejs: false
 profile::javascript::less: false
+
 profile::app::symfony2: true
-profile::app::php_vhost: false
-profile::app::standalone_app: false
+profile::app::php_vhost: false  # simple vhost that sends all *.php to php-fpm
+profile::app::standalone_app: false  # proxy to an app that comes with a webserver (rails, django, flask)
 profile::app::zend_framework1: false
 
 ## mysql
