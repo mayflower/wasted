@@ -5,7 +5,7 @@ class component::yii1 (
 ) {
 
   nginx::resource::vhost { $vhost:
-    www_root            => "${path}/public",
+    www_root            => "${path}",
     fastcgi             => '127.0.0.1:9000',
     location_cfg_append => {
       fastcgi_index => 'index.php',
