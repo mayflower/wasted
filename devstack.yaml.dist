@@ -23,9 +23,11 @@ profile::javascript::nodejs: false
 profile::javascript::less: false
 
 profile::app::symfony2: true
+profile::app::yii1: false
+profile::app::yii2: false
+profile::app::zend_framework1: false
 profile::app::php_vhost: false  # simple vhost that sends all *.php to php-fpm
 profile::app::standalone_app: false  # proxy to an app that comes with a webserver (rails, django, flask)
-profile::app::zend_framework1: false
 
 ## mysql
 component::mysql::root_password: root
@@ -54,6 +56,8 @@ component::mysql::databases:
 # component::standalone_app::port: 5000
 # component::standalone_app::prefix: api  # results in proxy from $vhost/api to localhost:$port
 # component::standalone_app::path: /var/www/app_name/static
+
+# component::yii1::path: /var/www/app_name/app # path to folder containing index.php
 
 ## php
 php::extensions:
