@@ -57,6 +57,8 @@ component::mysql::databases:
 # component::standalone_app::prefix: api  # results in proxy from $vhost/api to localhost:$port
 # component::standalone_app::path: /var/www/app_name/static
 
+# component::yii1::path: /var/www/app_name/app # path to folder containing index.php
+
 ## php
 php::extensions:
   curl: {}
