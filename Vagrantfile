@@ -14,6 +14,10 @@ end
 
 provider   = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
 configfn   = Dir.glob('*/devstack.yaml', File::FNM_DOTMATCH)[0]
+if not configfn
+  abort 'Run vagrant/bootstrap.sh before running vagrant! (no devstack.yaml exists)'
+end
+
 basedir    = File.absolute_path(File.dirname(configfn))
 vagrantdir = File.absolute_path(File.dirname(configfn) == '..' ? '.' : 'vagrant')
 cnf        = YAML::load(File.open(configfn))
