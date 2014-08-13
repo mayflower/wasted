@@ -88,7 +88,7 @@ hhvm::config::port: 9090  # make sure that hhvm and php5-fpm ports don't collide
 #      xdebug.default_enable: On
 #      xdebug.remote_connect_back: On
 
-php::fpm::settings:
+php::fpm::config::php_settings:
   Date/date.timezone: Europe/Berlin
 php::cli::settings:
   Date/date.timezone: Europe/Berlin
