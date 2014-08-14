@@ -3,6 +3,8 @@
 
 require 'yaml'
 
+Vagrant.require_version ">= 1.5"
+
 if Vagrant.has_plugin?('vagrant-vbguest')
   class GuestAdditionsFixer < VagrantVbguest::Installers::Ubuntu
     def install(opts=nil, &block)
@@ -12,7 +14,6 @@ if Vagrant.has_plugin?('vagrant-vbguest')
   end
 end
 
-provider   = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
 configfn   = Dir.glob('*/devstack.yaml', File::FNM_DOTMATCH)[0]
 if not configfn
   abort 'Run vagrant/bootstrap.sh before running vagrant! (no devstack.yaml exists)'
@@ -42,14 +43,6 @@ Vagrant.configure("2") do |config|
 
   if Vagrant.has_plugin?('vagrant-vbguest')
     config.vbguest.installer = GuestAdditionsFixer
-  end
-
-  if provider == :virtualbox
-    config.vm.box_url = 'http://filedump.mayflower.de/baseboxes/ubuntu-14.04-puppet3.4.3-vbox4.3.14.box'
-  elsif provider == :lxc
-    config.vm.box_url = 'http://filedump.mayflower.de/baseboxes/ubuntu-14.04-puppet3.4.3-lxc.box'
-  else
-    puts 'Your Vagrant provider isn\'t supported!'
   end
 
   config.vm.provider :virtualbox do |vb|

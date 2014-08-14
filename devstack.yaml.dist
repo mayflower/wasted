@@ -8,7 +8,7 @@
 path: /var/www/app_name
 vhost: app-name.dev
 ip: 192.168.56.112
-box_name: trusty64
+box_name: mayflower/trusty64-puppet3
 nfs: true
 
 profile::database::mysql: true
