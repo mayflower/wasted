@@ -16,6 +16,8 @@ profile::database::postgresql: false
 profile::database::mongodb: false
 profile::database::redis: false
 
+profile::queue::rabbitmq: false
+
 profile::webserver::php: true
 profile::webserver::hhvm: false
 

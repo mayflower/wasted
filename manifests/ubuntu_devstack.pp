@@ -9,6 +9,7 @@ class ubuntu_devstack {
   class { 'profile::default': } ->
   class { 'profile::webserver': } ->
   class { 'profile::database': } ->
+  class { 'profile::queue': } ->
   class { 'profile::javascript': } ->
   class { 'profile::frontend': } ->
   class { 'profile::app': }
