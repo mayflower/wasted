@@ -5,8 +5,5 @@ class component::nodejs {
   } ->
   package { 'grunt-cli':
     provider => 'npm'
-  } ->
-  package { 'bower':
-    provider => 'npm'
   }
 }
