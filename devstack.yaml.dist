@@ -29,6 +29,8 @@ profile::frontend::bower: false
 profile::frontend::grunt: false
 
 profile::app::symfony2: true
+# component::symfony2::front_controller: app_dev.php
+
 profile::app::yii1: false
 profile::app::yii2: false
 profile::app::zend_framework1: false

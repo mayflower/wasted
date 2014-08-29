@@ -1,34 +1,36 @@
 class component::symfony2 (
-  $path       = hiera('path', '/var/www/app_name'),
-  $vhost      = hiera('vhost', 'app-name.dev'),
-  $vhost_port = 80,
-  $env        = hiera('env', 'dev'),
+  $path             = hiera('path', '/var/www/app_name'),
+  $vhost            = hiera('vhost', 'app-name.dev'),
+  $vhost_port       = 80,
+  $env              = hiera('env', 'dev'),
+  $front_controller = undef,
 ) {
 
-  $index_file = $env ? {
-    /development|dev/ => 'app_dev.php',
-    default           => 'app.php'
+  $entrypoint = $front_controller ? {
+    undef => $env ? {
+      /development|dev/ => 'app_dev.php',
+      default           => 'app.php'
+    },
+    default => $front_controller
   }
-  $location_index = $env ? {
-    /development|dev/ => '(app_dev|app)',
-    default           => 'app'
-  }
+  
+  $location_index = regsubst($entrypoint, '\.', '\.')
 
   nginx::resource::vhost { "${vhost}-${vhost_port}-symfony2":
     server_name => [$vhost],
     listen_port => $vhost_port,
     www_root    => "${path}/web",
-    index_files => [index_file],
+    index_files => [$entrypoint],
     try_files   => ['$uri', '@rewriteapp'],
   }
 
   nginx::resource::location { '@rewriteapp':
     vhost         => "${vhost}-${vhost_port}-symfony2",
     www_root      => "${path}/web",
-    rewrite_rules => ["^(.*)\$ /${index_file}/\$1 last"]
+    rewrite_rules => ["^(.*)\$ /${entrypoint}/\$1 last"]
   }
 
-  nginx::resource::location { "~ ^/${location_index}\\.php(/|\$)":
+  nginx::resource::location { "~ ^/${location_index}(/|\$)":
     vhost               => "${vhost}-${vhost_port}-symfony2",
     www_root            => "${path}/web",
     fastcgi             => '127.0.0.1:9000',
@@ -45,7 +47,7 @@ class component::symfony2 (
       server_name => ["hhvm.${vhost}"],
       listen_port => $vhost_port,
       www_root    => "${path}/web",
-      index_files => [index_file],
+      index_files => [$entrypoint],
       try_files   => ['$uri', '@rewriteapp'],
     }
 
@@ -53,11 +55,11 @@ class component::symfony2 (
       location      => '@rewriteapp',
       vhost         => "hhvm.${vhost}-${vhost_port}-symfony2",
       www_root      => "${path}/web",
-      rewrite_rules => ["^(.*)\$ /${index_file}/\$1 last"]
+      rewrite_rules => ["^(.*)\$ /${entrypoint}/\$1 last"]
     }
 
     nginx::resource::location { 'hhvm-sf2-php':
-      location            => "~ ^/${location_index}\\.php(/|\$)",
+      location            => "~ ^/${location_index}(/|\$)",
       vhost               => "hhvm.${vhost}-${vhost_port}-symfony2",
       www_root            => "${path}/web",
       fastcgi             => '127.0.0.1:9090',
