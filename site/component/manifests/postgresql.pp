@@ -14,6 +14,10 @@ class component::postgresql (
     } ->
   anchor { 'component::postgresql::end': }
 
+  Anchor['component::postgresql::begin'] ->
+  Class['::postgresql::client'] ->
+  Anchor['component::postgresql::end']
+
   if $postgis {
     Anchor['component::postgresql::begin'] ->
     class { '::postgresql::server::postgis': } ->
