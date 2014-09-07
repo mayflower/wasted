@@ -26,7 +26,7 @@ Check out the [Setup](#setup) section of this document for instructions. If you 
 ### Adding WASTED to your project
 Switch to the root of your existing git repository and execute the following commands:
 ```
-git subtree add --prefix vagrant https://github.com/Mayflower/wasted.git master
+git subtree add --prefix vagrant https://github.com/Mayflower/wasted.git master --squash
 ./vagrant/bootstrap.sh
 ```
 This requires that there is no existing `vagrant` directory.
@@ -46,7 +46,7 @@ different IP or box name.
 ### Updating
 To update the devstack use (from the root of your git repository):
 ```
-git subtree pull --prefix vagrant https://github.com/Mayflower/wasted.git master
+git subtree pull --prefix vagrant https://github.com/Mayflower/wasted.git master --squash
 ```
 
 ## Usage
