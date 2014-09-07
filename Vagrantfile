@@ -14,9 +14,7 @@ if Vagrant.has_plugin?('vagrant-vbguest')
   end
 end
 
-provider   = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
-
-cnf     = {}
+cnf = {}
 
 configdir = Dir.glob('*/vagrant-cfg', File::FNM_DOTMATCH)[0]
 configfn  = Dir.glob('*/devstack.yaml', File::FNM_DOTMATCH)[0]
@@ -32,7 +30,7 @@ if configfn
 
   local_configfn = Dir.glob('*/local_devstack.yaml', File::FNM_DOTMATCH)[0]
   if local_configfn
-    cnf       = cnf.merge(YAML::load(File.open(local_configfn)))
+    cnf = cnf.merge(YAML::load(File.open(local_configfn)))
   end
 end
 
