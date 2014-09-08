@@ -5,7 +5,8 @@ require 'puppet-lint/tasks/puppet-lint'
 require 'rspec/core/rake_task'
 
 PuppetLint.configuration.ignore_paths = [
-  'modules/**/*'
+  'modules/**/*',
+  'vendor/**/*'
 ]
 
 PuppetLint.configuration.log_format = '%{path}:%{linenumber}:%{check}:%{KIND}:%{message}'
