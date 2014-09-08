@@ -17,33 +17,19 @@ end
 cnf = {}
 
 configdir = Dir.glob('*/vagrant-cfg', File::FNM_DOTMATCH)[0]
-configfn  = Dir.glob('*/devstack.yaml', File::FNM_DOTMATCH)[0]
 
-if not configdir and not configfn
+if not configdir
   abort 'Run vagrant/bootstrap.sh before running vagrant! (no devstack.yaml/vagrant-cfg exists)'
 end
 
-if configfn
-  basedir    = File.absolute_path(File.dirname(configfn))
-  vagrantdir = File.absolute_path(File.dirname(configfn)  == '..' ? '.' : 'vagrant')
-  cnf        = cnf.merge(YAML::load(File.open(configfn)))
+basedir    = File.absolute_path(File.dirname(configdir))
+vagrantdir = File.absolute_path(File.dirname(configdir) == '..' ? '.' : 'vagrant')
 
-  local_configfn = Dir.glob('*/local_devstack.yaml', File::FNM_DOTMATCH)[0]
-  if local_configfn
-    cnf = cnf.merge(YAML::load(File.open(local_configfn)))
-  end
-end
-
-if configdir
-  basedir    = File.absolute_path(File.dirname(configdir))
-  vagrantdir = File.absolute_path(File.dirname(configdir) == '..' ? '.' : 'vagrant')
-
-  configs = [['common.yaml'], ['dev', 'common.yaml'], ['local', 'common.yaml']]
-  configs.each do |config|
-    configfn = File.join(configdir, *config)
-    if File.exist?(configfn)
-      cnf = cnf.merge(YAML::load(File.open(configfn)))
-    end
+configs = [['common.yaml'], ['dev', 'common.yaml'], ['local', 'common.yaml']]
+configs.each do |config|
+  configfn = File.join(configdir, *config)
+  if File.exist?(configfn)
+    cnf = cnf.merge(YAML::load(File.open(configfn)))
   end
 end
 

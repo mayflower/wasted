@@ -3,22 +3,20 @@
   - yaml
 
 :yaml:
-  :datadir: /vagrant
+    :datadir: /vagrant/vagrant-cfg
 
 :hierarchy:
-  - vagrant-cfg/local/%{::environment}/%{::fqdn}
-  - vagrant-cfg/local/%{::environment}/%{::hostname}
-  - vagrant-cfg/local/%{::environment}/common
-  - vagrant-cfg/local/%{::fqdn}
-  - vagrant-cfg/local/%{::hostname}
-  - vagrant-cfg/local/common
-  - vagrant-cfg/'%{::environment}/%{::fqdn}'
-  - vagrant-cfg/'%{::environment}/%{::hostname}'
-  - vagrant-cfg/'%{::environment}/common'
-  - vagrant-cfg/'%{::fqdn}'
-  - vagrant-cfg/'%{::hostname}'
-  - vagrant-cfg/common
-  - local_devstack
-  - devstack
+  - local/%{::environment}/%{::fqdn}
+  - local/%{::environment}/%{::hostname}
+  - local/%{::environment}/common
+  - local/%{::fqdn}
+  - local/%{::hostname}
+  - local/common
+  - '%{::environment}/%{::fqdn}'
+  - '%{::environment}/%{::hostname}'
+  - '%{::environment}/common'
+  - '%{::fqdn}'
+  - '%{::hostname}'
+  - common
 
 :merge_behavior: deeper
