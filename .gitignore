@@ -1,11 +1,4 @@
-# Vagrant & puppet stuff
-
 .vagrant
 /modules/*
 /graphs/*
-
-/config/config
-
-# IDE & OS stuff
-/.idea/*
-.DS_Store
+/vendor/*
