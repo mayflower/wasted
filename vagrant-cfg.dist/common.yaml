@@ -27,12 +27,12 @@ profile::app::standalone_app: false  # proxy to an app that comes with a webserv
 
 ## mysql
 component::mysql::root_password: root
-component::mysql::databases:
-  db_name:
-    user: dev
-    password: dev
-    host: localhost
-    grant: ['ALL']
+#component::mysql::databases:
+#  db_name:
+#    user: dev
+#    password: dev
+#    host: localhost
+#    grant: ['ALL']
 
 ## mongodb
 # mongodb::server::smallfiles: true
@@ -71,22 +71,22 @@ hhvm::config::port: 9090  # make sure that hhvm and php5-fpm ports don't collide
 
 
 ## php
-php::extensions:
-  curl: {}
-  json: {}
-  intl: {}
-  mysql: {}
-  apc:
-    package_prefix: php-
-    config:
-      - 'set .anon/apc.stat 1'
-      - 'set .anon/apc.stat_ctime 1'
-  xdebug:
-    config:
-      - 'set .anon/xdebug.max_nesting_level 1000'
-      - 'set .anon/xdebug.remote_enable On'
-      - 'set .anon/xdebug.default_enable On'
-      - 'set .anon/xdebug.remote_connect_back On'
+#php::extensions:
+#  curl: {}
+#  json: {}
+#  intl: {}
+#  mysql: {}
+#  apc:
+#    package_prefix: php-
+#    config:
+#      - 'set .anon/apc.stat 1'
+#      - 'set .anon/apc.stat_ctime 1'
+#  xdebug:
+#    config:
+#      - 'set .anon/xdebug.max_nesting_level 1000'
+#      - 'set .anon/xdebug.remote_enable On'
+#      - 'set .anon/xdebug.default_enable On'
+#      - 'set .anon/xdebug.remote_connect_back On'
 
 php::fpm::settings:
   - 'set Date/date.timezone Europe/Berlin'
