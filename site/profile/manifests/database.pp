@@ -1,5 +1,5 @@
 class profile::database (
-  $mysql      = true,
+  $mysql      = false,
   $postgresql = false,
   $mongodb    = false,
   $redis      = false,
@@ -9,30 +9,19 @@ class profile::database (
   validate_bool($mongodb)
   validate_bool($redis)
 
-  anchor { 'profile::database::begin': } ->
-  anchor { 'profile::database::end': }
-
   if $mysql {
-    Anchor['profile::database::begin'] ->
-    class { 'component::mysql': } ->
-    Anchor['profile::database::end']
+    contain component::mysql
   }
 
   if $mongodb {
-    Anchor['profile::database::begin'] ->
-    class { 'component::mongodb': } ->
-    Anchor['profile::database::end']
+    contain component::mongodb
   }
 
   if $postgresql {
-    Anchor['profile::database::begin'] ->
-    class { 'component::postgresql': } ->
-    Anchor['profile::database::end']
+    contain component::postgresql
   }
 
   if $redis {
-    Anchor['profile::database::begin'] ->
-    class { 'component::redis': } ->
-    Anchor['profile::database::end']
+    contain component::redis
   }
 }
