@@ -19,7 +19,7 @@ cnf = {}
 configdir = Dir.glob('*/vagrant-cfg', File::FNM_DOTMATCH)[0]
 
 if not configdir
-  abort 'Run vagrant/bootstrap.sh before running vagrant! (no devstack.yaml/vagrant-cfg exists)'
+  abort 'Run vagrant/bootstrap.sh before running vagrant! (vagrant-cfg does not exit)'
 end
 
 basedir    = File.absolute_path(File.dirname(configdir))
