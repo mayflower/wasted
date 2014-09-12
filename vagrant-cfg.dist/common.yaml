@@ -78,11 +78,11 @@ hhvm::config::port: 9090  # make sure that hhvm and php5-fpm ports don't collide
 #  mysql: {}
 #  apc:
 #    package_prefix: php-
-#    config:
+#    settings:
 #      apc.stat: 1
 #      apc.stat_ctime: 1
 #  xdebug:
-#    config:
+#    settings:
 #      xdebug.max_nesting_level: 1000
 #      xdebug.remote_enable: 'On'
 #      xdebug.default_enable: 'On'
