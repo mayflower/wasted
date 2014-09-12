@@ -14,19 +14,23 @@ if Vagrant.has_plugin?('vagrant-vbguest')
   end
 end
 
-configfn   = Dir.glob('*/devstack.yaml', File::FNM_DOTMATCH)[0]
-if not configfn
-  abort 'Run vagrant/bootstrap.sh before running vagrant! (no devstack.yaml exists)'
+cnf = {}
+
+configdir = Dir.glob('*/vagrant-cfg', File::FNM_DOTMATCH)[0]
+
+if not configdir
+  abort 'Run vagrant/bootstrap.sh before running vagrant! (vagrant-cfg does not exit)'
 end
 
-basedir    = File.absolute_path(File.dirname(configfn))
-vagrantdir = File.absolute_path(File.dirname(configfn) == '..' ? '.' : 'vagrant')
-cnf        = YAML::load(File.open(configfn))
+basedir    = File.absolute_path(File.dirname(configdir))
+vagrantdir = File.absolute_path(File.dirname(configdir) == '..' ? '.' : 'vagrant')
 
-local_configfn = Dir.glob('*/local_devstack.yaml', File::FNM_DOTMATCH)[0]
-if local_configfn
-  local_cnf      = YAML::load(File.open(local_configfn))
-  cnf = cnf.merge(local_cnf)
+configs = [['common.yaml'], ['dev', 'common.yaml'], ['local', 'common.yaml']]
+configs.each do |config|
+  configfn = File.join(configdir, *config)
+  if File.exist?(configfn)
+    cnf = cnf.merge(YAML::load(File.open(configfn)))
+  end
 end
 
 Vagrant.configure("2") do |config|

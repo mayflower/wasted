@@ -1,10 +1,4 @@
 ---
-## general configuration
-## modify this file for project-wide settings
-##
-## create a local_devstack.yaml and add it to .gitignore
-## to override with personal settings (e.g. different IP)
-
 path: /var/www/app_name
 vhost: app-name.dev
 ip: 192.168.56.112
@@ -16,21 +10,15 @@ profile::database::postgresql: false
 profile::database::mongodb: false
 profile::database::redis: false
 
-profile::queue::rabbitmq: false
-
 profile::webserver::php: true
 profile::webserver::hhvm: false
 
 profile::javascript::nodejs: false
 profile::javascript::less: false
 
-profile::frontend::compass: false
-profile::frontend::bower: false
-profile::frontend::grunt: false
+profile::frontend::compass: true
 
 profile::app::symfony2: true
-# component::symfony2::front_controller: app_dev.php
-
 profile::app::yii1: false
 profile::app::yii2: false
 profile::app::zend_framework1: false
@@ -66,6 +54,21 @@ component::mysql::databases:
 # component::standalone_app::path: /var/www/app_name/static
 
 # component::yii1::path: /var/www/app_name/app # path to folder containing index.php
+
+## nginx (sendfile is turned off in dev)
+nginx::manage_repo: false
+
+
+## apt
+apt::always_apt_update: true
+apt::purge_sources_list: false
+apt::purge_sources_list_d: false
+apt::purge_preferences_d: false
+
+
+## hhvm
+hhvm::config::port: 9090  # make sure that hhvm and php5-fpm ports don't collide
+
 
 ## php
 php::extensions:
