@@ -9,6 +9,7 @@ profile::database::mysql: true
 profile::database::postgresql: false
 profile::database::mongodb: false
 profile::database::redis: false
+profile::database::oracle_instantclient: false
 
 profile::webserver::php: true
 profile::webserver::hhvm: false

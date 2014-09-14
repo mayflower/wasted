@@ -1,38 +1,32 @@
 class profile::database (
-  $mysql      = true,
-  $postgresql = false,
-  $mongodb    = false,
-  $redis      = false,
+  $mysql                = false,
+  $postgresql           = false,
+  $mongodb              = false,
+  $redis                = false,
+  $oracle_instantclient = false,
 ) {
   validate_bool($mysql)
   validate_bool($postgresql)
   validate_bool($mongodb)
   validate_bool($redis)
 
-  anchor { 'profile::database::begin': } ->
-  anchor { 'profile::database::end': }
-
   if $mysql {
-    Anchor['profile::database::begin'] ->
-    class { 'component::mysql': } ->
-    Anchor['profile::database::end']
+    contain component::mysql
   }
 
   if $mongodb {
-    Anchor['profile::database::begin'] ->
-    class { 'component::mongodb': } ->
-    Anchor['profile::database::end']
+    contain component::mongodb
   }
 
   if $postgresql {
-    Anchor['profile::database::begin'] ->
-    class { 'component::postgresql': } ->
-    Anchor['profile::database::end']
+    contain component::postgresql
   }
 
   if $redis {
-    Anchor['profile::database::begin'] ->
-    class { 'component::redis': } ->
-    Anchor['profile::database::end']
+    contain component::redis
+  }
+
+  if $oracle_instantclient {
+    contain component::oracle_instantclient
   }
 }
