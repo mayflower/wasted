@@ -3,24 +3,19 @@ class profile::frontend (
   $bower = false,
   $grunt = false
 ) {
-  anchor { 'profile::frontend::begin': } ->
-  anchor { 'profile::frontend::end': }
+  validate_bool($compass)
+  validate_bool($bower)
+  validate_bool($grunt)
 
   if $compass {
-    Anchor['profile::frontend::begin'] ->
-      class { 'component::compass': } ->
-    Anchor['profile::frontend::end']
+    contain component::compass
   }
 
   if $bower {
-    Anchor['profile::frontend::begin'] ->
-      class { 'component::bower': } ->
-    Anchor['profile::frontend::end']
+    contain component::bower
   }
 
   if $grunt {
-    Anchor['profile::frontend::begin'] ->
-      class { 'component::grunt': } ->
-    Anchor['profile::frontend::end']
+    contain component::grunt
   }
 }

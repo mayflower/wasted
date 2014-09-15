@@ -13,23 +13,22 @@ class profile::app (
   validate_bool($yii1)
   validate_bool($yii2)
 
-  # these dangle around for the mean time otherwise causing dependency cycles with nginx, should work (TM)
   if $symfony2 {
-    class { 'component::symfony2': }
+    contain component::symfony2
   }
   if $php_vhost {
-    class { 'component::php_vhost': }
+    contain component::php_vhost
   }
   if $standalone_app {
-    class { 'component::standalone_app': }
+    contain component::standalone_app
   }
   if $zend_framework1 {
-    class { 'component::zend_framework1': }
+    contain component::zend_framework1
   }
   if $yii1 {
-    class { 'component::yii1': }
+    contain component::yii1
   }
   if $yii2 {
-    class { 'component::yii2': }
+    contain component::yii2
   }
 }

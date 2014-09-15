@@ -2,21 +2,15 @@ class profile::webserver (
   $php  = true,
   $hhvm = false,
 ) {
-
+  validate_bool($php)
   validate_bool($hhvm)
 
-  anchor { 'profile::webserver::begin': } ->
-    class { 'component::nginx': } ->
-  anchor { 'profile::webserver::end': }
+  contain component::nginx
 
   if $php {
-    Anchor['profile::webserver::begin'] ->
-    class { 'component::php': } ->
-    Anchor['profile::webserver::end']
+    contain component::php
   }
   if $hhvm {
-    Anchor['profile::webserver::begin'] ->
-    class { 'component::hhvm': } ->
-    Anchor['profile::webserver::end']
+    contain component::hhvm
   }
 }
