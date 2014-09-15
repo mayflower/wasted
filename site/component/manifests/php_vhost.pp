@@ -13,7 +13,7 @@ class component::php_vhost (
     listen_port => $vhost_port,
   }
   ## create location to direct .php to the fpm pool
-  nginx::resource::location { 'devstack-php-rewrite':
+  nginx::resource::location { 'wasted-php-rewrite':
     location  => '~ \.php$',
     vhost     => "${vhost}-${vhost_port}-php",
     fastcgi   => '127.0.0.1:9000',
@@ -30,7 +30,7 @@ class component::php_vhost (
       listen_port => $vhost_port,
     }
     ## create location to direct .php to the fpm pool
-    nginx::resource::location { 'hhvm-devstack-php-rewrite':
+    nginx::resource::location { 'hhvm-wasted-php-rewrite':
       location  => '~ \.php$',
       vhost     => "hhvm.${vhost}-${vhost_port}-php",
       fastcgi   => '127.0.0.1:9090',
