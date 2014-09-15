@@ -1,16 +1,14 @@
-class ubuntu_devstack {
-
-  # APT
-  ## Make sure all apt sources are always up to date
-  class { 'apt': } ->
-
-  class { 'profile::default': } ->
-  class { 'profile::database': } ->
-  class { 'profile::queue': } ->
-  class { 'profile::javascript': } ->
-  class { 'profile::frontend': } ->
-  class { 'profile::webserver': } ->
-  class { 'profile::app': }
+class wasted {
+  contain profile::default
+  contain profile::database
+  contain profile::queue
+  contain profile::javascript
+  contain profile::frontend
+  contain profile::webserver
+  contain profile::app
 }
 
-include ubuntu_devstack
+node default {
+  class { 'apt': } ->
+  class { 'wasted': }
+}
