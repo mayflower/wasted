@@ -1,6 +1,8 @@
 ---
 env: dev
 
+nginx::vhost_purge: true
+
 # fixes permission errors
 php::fpm::user: vagrant
 php::fpm::group: users
