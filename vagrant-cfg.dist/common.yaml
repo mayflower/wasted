@@ -71,6 +71,15 @@ apt::purge_preferences_d: false
 hhvm::config::port: 9090  # make sure that hhvm and php5-fpm ports don't collide
 
 
+## files and directories
+# component::sync::files:
+#   /home/vagrant/.profile:
+#     source: file:///vagrant/.profile
+# component::sync::directories:
+#   /home/vagrant/bin:
+#     source: file:///vagrant/bin
+
+
 ## php
 #php::extensions:
 #  curl: {}
