@@ -3,4 +3,5 @@ class component::nodejs {
     version      => 'stable',
     make_install => false
   }
+  contain '::nodejs'
 }
