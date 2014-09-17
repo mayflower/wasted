@@ -8,7 +8,9 @@ class component::mysql (
 
   anchor { 'component::mysql::begin': } ->
     class {'::mysql::client': } ->
-    class {'::mysql::server': } ->
+    class {'::mysql::server':
+      root_password => $root_password
+    } ->
   anchor { 'component::mysql::end': }
 
   create_resources('::mysql::db', $databases, {
