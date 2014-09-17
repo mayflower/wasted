@@ -21,7 +21,7 @@ main() {
         ln -si vagrant/.vagrant "$DIR/../.vagrant" &&
         (mkdir vagrant/.vagrant 2>/dev/null || true)
     echo "[bootstrap] create configs and basic hierarchy" && \
-        cp -Ri "$DIR/vagrant-cfg.dist" "$DIR/../vagrant-cfg"
+        cp -Ri "$DIR/vagrant-cfg.dist/" "$DIR/../vagrant-cfg"
 }
 
 main
