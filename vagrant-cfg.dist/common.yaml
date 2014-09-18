@@ -6,6 +6,13 @@ ip: 192.168.56.112
 box_name: mayflower/trusty64-puppet3
 nfs: true
 
+profile::packages::names:
+  - vim-nox
+  - htop
+  - bash-completion
+  - wget
+  - curl
+
 profile::database::mysql: true
 profile::database::postgresql: false
 profile::database::mongodb: false
@@ -73,10 +80,10 @@ hhvm::config::port: 9090  # make sure that hhvm and php5-fpm ports don't collide
 
 
 ## files and directories
-# component::sync::files:
+# profile::sync::files:
 #   /home/vagrant/.profile:
 #     source: file:///vagrant/.profile
-# component::sync::directories:
+# profile::sync::directories:
 #   /home/vagrant/bin:
 #     source: file:///vagrant/bin
 

@@ -1,5 +1,5 @@
 class wasted {
-  contain profile::default
+  contain profile::packages
   contain profile::database
   contain profile::queue
   contain profile::javascript
@@ -9,6 +9,7 @@ class wasted {
 }
 
 node default {
+  class { 'profile::sync': } ->
   class { 'apt': } ->
   class { 'wasted': }
 }
