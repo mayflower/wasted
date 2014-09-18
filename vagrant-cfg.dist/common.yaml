@@ -35,7 +35,7 @@ profile::app::php_vhost: false  # simple vhost that sends all *.php to php-fpm
 profile::app::standalone_app: false  # proxy to an app that comes with a webserver (rails, django, flask)
 
 ## mysql
-component::mysql::root_password: root
+mysql::server::root_password: root
 #component::mysql::databases:
 #  db_name:
 #    user: dev
