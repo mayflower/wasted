@@ -55,8 +55,11 @@ r10k will first bootstrap your local Puppet modules and after that the provision
 This might not work if you are using non-Virtualbox providers.
 
 ### Additional information for windows users
- * You have to run `vagrant up` from the vagrant subdirectory
- * You have to edit your `C:\Windows\System32\drivers\etc\hosts` file manually
+ * For all Users of Windows NT based Systems (Windows 2000, Vista, 7 and 8) with using NTFS Filesystem (is the default)
+   * You can use the `vagrant\bootstrap.cmd` to work in the same way that is described in the *Adding WASTED to your project* section.
+ * All other Window Users:
+   * You have to run `vagrant up` from the vagrant subdirectory
+   * You have to edit your `C:\Windows\System32\drivers\etc\hosts` file manually
 
 ## Notes
 ### Recommended Plugins
