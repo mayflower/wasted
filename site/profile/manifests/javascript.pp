@@ -5,18 +5,11 @@ class profile::javascript (
   validate_bool($nodejs)
   validate_bool($less)
 
-  anchor { 'profile::javascript::begin': } ->
-  anchor { 'profile::javascript::end': }
-
   if $nodejs {
-    Anchor['profile::javascript::begin'] ->
-      class { 'component::nodejs': } ->
-    Anchor['profile::javascript::end']
+    contain component::nodejs
   }
 
   if $less {
-    Class['component::nodejs'] ->
-    class { 'component::less': } ->
-    Anchor['profile::javascript::end']
+    contain component::less
   }
 }

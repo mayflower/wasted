@@ -1,4 +1,4 @@
-class component::sync (
+class profile::sync (
   $files = {},
   $directories = {}
 ) {
