@@ -85,6 +85,14 @@ touch dummy_file && git add dummy_file && git commit dummy_file -m "Initial comm
 ```
 Your dummy repository is now ready for use with WASTED. Just follow the instruction from the [Setup](#setup) section.
 
+### Requirements for vagrant boxes
+WASTED requires Puppet >= 3.7.0 to work correctly, which is included in the default boxes.
+Otherwise it will fail with a cryptic error due to a bug in `contain` on fully qualified class names:
+```
+Error: undefined method 'ref' for nil:NilClass
+```
+In case you stab your toe on this using the `mayflower/trusty64-puppet3` box run `vagrant box update`
+
 ## Contributing
 For development of WASTED create a staging directory and clone the WASTED repository directly into the `vagrant` directory.
 ```
