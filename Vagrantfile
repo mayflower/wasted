@@ -62,6 +62,17 @@ Vagrant.configure("2") do |config|
     config.cache.auto_detect = true
   end
 
+  # If vagrant-proxyconf is installed and proxy is configured set this proxy.
+  if Vagrant.has_plugin?('vagrant-proxyconf') && cnf.has_key?('proxy') && cnf.has_key?('no-proxy')
+    if !cnf['proxy'].nil? && !cnf['proxy'].empty?
+      config.proxy.http = cnf['proxy']
+      config.proxy.https = cnf['proxy']
+      if !cnf['no-proxy'].nil? && !cnf['no-proxy'].empty?
+        config.proxy.no_proxy = cnf['no-proxy']
+      end
+    end
+  end
+
   # Install r10k using the shell provisioner and download the Puppet modules
   config.vm.provision :shell, :path => File.join(vagrantdir, 'puppet-bootstrap.sh')
 
