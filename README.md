@@ -55,6 +55,7 @@ r10k will first bootstrap your local Puppet modules and after that the provision
 This might not work if you are using non-Virtualbox providers.
 
 ### Additional information for windows users
+ * Executing `./vagrant/bootstrap.sh` just works from cmd.exe correctly, on cygwin you'll get some syntax errors
  * You have to run `vagrant up` from the vagrant subdirectory
  * You have to edit your `C:\Windows\System32\drivers\etc\hosts` file manually
 
