@@ -5,6 +5,8 @@ vhost_aliases: [ 'hhvm.app-name.dev' ]
 ip: 192.168.56.112
 box_name: mayflower/trusty64-puppet3
 nfs: true
+#proxy: http://proxy-server:8080/
+#no-proxy: localhost,127.0.0.1
 
 profile::packages::names:
   - vim-nox
