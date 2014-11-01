@@ -5,6 +5,8 @@ require 'yaml'
 
 Vagrant.require_version ">= 1.5"
 
+vagrant_root = File.dirname(__FILE__)
+
 if Vagrant.has_plugin?('vagrant-vbguest')
   class GuestAdditionsFixer < VagrantVbguest::Installers::Ubuntu
     def install(opts=nil, &block)
@@ -16,14 +18,15 @@ end
 
 cnf = {}
 
-configdir = Dir.glob('*/vagrant-cfg', File::FNM_DOTMATCH)[0]
+configdir = Dir.glob(File.join(vagrant_root, 'vagrant-cfg'), File::FNM_DOTMATCH)[0]
 
 if not configdir
   abort 'Run vagrant/bootstrap.sh before running vagrant! (vagrant-cfg does not exit)'
 end
 
+
 basedir    = File.absolute_path(File.dirname(configdir))
-vagrantdir = File.absolute_path(File.dirname(configdir) == '..' ? '.' : 'vagrant')
+vagrant_dir = 'vagrant'
 
 configs = [['common.yaml'], ['dev', 'common.yaml'], ['local', 'common.yaml']]
 configs.each do |config|
@@ -74,7 +77,7 @@ Vagrant.configure("2") do |config|
   end
 
   # Install r10k using the shell provisioner and download the Puppet modules
-  config.vm.provision :shell, :path => File.join(vagrantdir, 'puppet-bootstrap.sh')
+  config.vm.provision :shell, :path => File.join(vagrant_dir, 'puppet-bootstrap.sh')
 
   config.vm.synced_folder "#{basedir}/", cnf['path'], :nfs => cnf['nfs']
   config.vm.network :private_network, :ip => cnf['ip']
@@ -83,11 +86,11 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :hostmanager if Vagrant.has_plugin?('vagrant-hostmanager')
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path    = File.join(vagrantdir, 'manifests')
+    puppet.manifests_path    = File.join(vagrant_dir, 'manifests')
     puppet.manifest_file     = 'site.pp'
-    puppet.module_path       = ['modules', 'site'].map { |dir| File.join(vagrantdir, dir) }
+    puppet.module_path       = ['modules', 'site'].map { |dir| File.join(vagrant_dir, dir) }
     puppet.options           = ["--graphdir=/vagrant/vagrant/graphs --graph --environment dev"] if not ENV["VAGRANT_PUPPET_DEBUG"]
     puppet.options           = ["--debug --graphdir=/vagrant/vagrant/graphs --graph --environment dev"] if ENV["VAGRANT_PUPPET_DEBUG"]
-    puppet.hiera_config_path = File.join(vagrantdir, 'hiera.yaml')
+    puppet.hiera_config_path = File.join(vagrant_dir, 'hiera.yaml')
   end
 end
