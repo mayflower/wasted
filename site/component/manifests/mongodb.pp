@@ -8,7 +8,6 @@ class component::mongodb (
     class {'::mongodb::server':
       auth => true
     } ->
-    class {'::mongodb::client': } ->
   anchor { 'component::mongodb::end': }
 
   create_resources('::mongodb::db', $databases, {
