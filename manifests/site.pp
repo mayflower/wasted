@@ -10,6 +10,7 @@ class wasted {
 
 node default {
   class { 'profile::sync': } ->
+  class { 'profile::custom_hosts': } ->
   class { 'apt': } ->
   class { 'wasted': }
 }
