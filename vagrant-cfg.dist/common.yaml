@@ -93,6 +93,16 @@ hhvm::config::port: 9090  # make sure that hhvm and php5-fpm ports don't collide
 #     source: file:///vagrant/bin
 
 
+## additional hosts entries
+# profile::custom_hosts::hosts:
+#   hostname1:
+#     ip: 1.2.3.4
+#     comment: This is a example host entry
+#   hostname2:
+#     name: otherhostname2
+#     ip: 1.3.4.2
+#     comment: This example will have the hostname otherhostname2
+
 ## php
 #php::extensions:
 #  curl: {}
