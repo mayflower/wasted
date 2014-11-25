@@ -9,6 +9,10 @@ class wasted {
 }
 
 node default {
+  Package {
+    allow_virtual => true,
+  }
+
   class { 'profile::sync': } ->
   class { 'profile::custom_hosts': } ->
   class { 'wasted': }
