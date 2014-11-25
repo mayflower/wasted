@@ -9,8 +9,7 @@ nfs: true
 #no-proxy: localhost,127.0.0.1
 
 profile::packages::names:
-  - vim-nox
-  - htop
+  - vim
   - bash-completion
   - wget
   - curl

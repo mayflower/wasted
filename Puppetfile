@@ -3,9 +3,14 @@
 forge "https://forge.puppetlabs.com"
 
 mod 'puppetlabs/stdlib',     '4.3.2'
-mod 'puppetlabs/apt',        '1.6.0'
 mod 'puppetlabs/concat',     '1.1.0'
 mod 'puppetlabs/inifile',    '1.1.3'
+
+# package management
+mod 'puppetlabs/apt',        '1.6.0'
+mod 'example42/puppi',       '2.1.10'
+mod 'example42/yum',         '2.1.17'
+
 mod 'puppetlabs/mysql',      '2.3.1'
 mod 'puppetlabs/postgresql', '3.4.2'
 mod 'puppetlabs/mongodb',    '0.8.0'

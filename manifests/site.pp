@@ -16,7 +16,12 @@ node default {
   if $osfamily == 'Debian' {
     class { 'apt':
       require => Class['profile::sync'],
-      befpre  => Class['wasted'],
+      before  => Class['wasted'],
+    }
+  } elsif $osfamily == 'RedHat' {
+    class { 'yum':
+      require => Class['profile::sync'],
+      before  => Class['wasted'],
     }
   }
 }
