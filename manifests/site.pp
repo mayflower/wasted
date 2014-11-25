@@ -11,6 +11,12 @@ class wasted {
 node default {
   class { 'profile::sync': } ->
   class { 'profile::custom_hosts': } ->
-  class { 'apt': } ->
   class { 'wasted': }
+
+  if $osfamily == 'Debian' {
+    class { 'apt':
+      require => Class['profile::sync'],
+      befpre  => Class['wasted'],
+    }
+  }
 }
