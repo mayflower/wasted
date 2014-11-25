@@ -1,13 +1,18 @@
 ---
+
+## common config variables
 path: /var/www/app_name
 vhost: app-name.dev
 vhost_aliases: [ 'hhvm.app-name.dev' ]
+
+## vagrant config
+box_name: mayflower/trusty64-puppet3    # or e.g. mayflower/centos-7.0-64-puppet3
 ip: 192.168.56.112
-box_name: mayflower/trusty64-puppet3
 nfs: true
 #proxy: http://proxy-server:8080/
 #no-proxy: localhost,127.0.0.1
 
+## puppet profiles
 profile::packages::names:
   - vim
   - bash-completion
@@ -37,6 +42,17 @@ profile::app::yii2: false
 profile::app::zend_framework1: false
 profile::app::php_vhost: false  # simple vhost that sends all *.php to php-fpm
 profile::app::standalone_app: false  # proxy to an app that comes with a webserver (rails, django, flask)
+
+## puppet files and directories sync
+# profile::sync::files:
+#   /home/vagrant/.profile:
+#     source: file:///vagrant/.profile
+# profile::sync::directories:
+#   /home/vagrant/bin:
+#     source: file:///vagrant/bin
+
+
+## puppet modules
 
 ## mysql
 mysql::server::root_password: root
@@ -71,25 +87,20 @@ mysql::server::root_password: root
 ## nginx (sendfile is turned off in dev)
 nginx::manage_repo: false
 
-
 ## apt
 apt::always_apt_update: true
 apt::purge_sources_list: false
 apt::purge_sources_list_d: false
 apt::purge_preferences_d: false
 
+## yum
+# yum::extrarepo:
+#  - epel
+#  - remi
+#  - remi_php56
 
 ## hhvm
 hhvm::config::port: 9090  # make sure that hhvm and php5-fpm ports don't collide
-
-
-## files and directories
-# profile::sync::files:
-#   /home/vagrant/.profile:
-#     source: file:///vagrant/.profile
-# profile::sync::directories:
-#   /home/vagrant/bin:
-#     source: file:///vagrant/bin
 
 
 ## additional hosts entries
@@ -120,9 +131,10 @@ hhvm::config::port: 9090  # make sure that hhvm and php5-fpm ports don't collide
 #      xdebug.default_enable: 'On'
 #      xdebug.remote_connect_back: 'On'
 
-# cli and fpm php.ini settings
-php::settings:
-  Date/date.timezone: Europe/Berlin
-# only fpm php.ini settings
+## cli and fpm php.ini settings
+# php::settings:
+#  Date/date.timezone: Europe/Berlin
+
+## only fpm php.ini settings
 # php::fpm::settings:
 #   PHP/short_open_tag: 'On'
