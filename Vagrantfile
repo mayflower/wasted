@@ -74,7 +74,11 @@ Vagrant.configure("2") do |config|
   end
 
   # Install r10k using the shell provisioner and download the Puppet modules
-  config.vm.provision :shell, :path => File.join(vagrantdir, 'puppet-bootstrap.sh')
+  config.vm.provision :puppet do |puppet|
+    puppet.manifests_path = File.join(vagrantdir, 'manifests')
+    puppet.manifest_file  = 'bootstrap.pp'
+    puppet.options        = ['--verbose']
+  end
 
   config.vm.synced_folder "#{basedir}/", cnf['path'], :nfs => cnf['nfs']
   config.vm.network :private_network, :ip => cnf['ip']
