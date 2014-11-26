@@ -13,19 +13,9 @@ node default {
     allow_virtual => true,
   }
 
-  class { 'profile::sync': } ->
+  class { 'profile::sync': }         ->
   class { 'profile::custom_hosts': } ->
+  class { 'profile::pkg_mgmt': }     ->
   class { 'wasted': }
 
-  if $osfamily == 'Debian' {
-    class { 'apt':
-      require => Class['profile::sync'],
-      before  => Class['wasted'],
-    }
-  } elsif $osfamily == 'RedHat' {
-    class { 'yum':
-      require => Class['profile::sync'],
-      before  => Class['wasted'],
-    }
-  }
 }
