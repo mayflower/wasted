@@ -4,6 +4,7 @@ class wasted {
   contain profile::queue
   contain profile::javascript
   contain profile::frontend
+  contain profile::interpreter
   contain profile::webserver
   contain profile::app
 }

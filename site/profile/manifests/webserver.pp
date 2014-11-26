@@ -1,16 +1,14 @@
 class profile::webserver (
-  $php  = true,
-  $hhvm = false,
+  $nginx  = true,
+  $apache = false,
 ) {
-  validate_bool($php)
-  validate_bool($hhvm)
+  validate_bool($nginx)
+  validate_bool($apache)
 
-  contain component::nginx
-
-  if $php {
-    contain component::php
+  if $nginx {
+    contain component::nginx
   }
-  if $hhvm {
-    contain component::hhvm
+  if $apache {
+    contain component::apache
   }
 }
