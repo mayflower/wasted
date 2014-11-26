@@ -2,9 +2,9 @@
 
 forge "https://forge.puppetlabs.com"
 
-mod 'puppetlabs/stdlib',     '4.3.2'
-mod 'puppetlabs/concat',     '1.1.0'
-mod 'puppetlabs/inifile',    '1.1.3'
+mod 'puppetlabs/stdlib',     '4.4.0'
+mod 'puppetlabs/concat',     '1.1.2'
+mod 'puppetlabs/inifile',    '1.2.0'
 
 # package management
 mod 'puppetlabs/apt',        '1.6.0'
