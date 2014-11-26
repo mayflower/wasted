@@ -11,4 +11,5 @@ hhvm::config::group: users
 
 # fixes bugs with vboxfs
 nginx::sendfile: 'off'
+apache::sendfile: 'Off'
 
