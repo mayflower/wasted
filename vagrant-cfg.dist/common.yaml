@@ -84,6 +84,50 @@ mysql::server::root_password: root
 
 # component::yii1::path: /var/www/app_name/app # path to folder containing index.php
 
+#component::rabbitmq::users:
+#    client:
+#      admin: true
+#      password: securepassword
+#    normaluser:
+#      admin: false
+#      password: othersecurepassword
+
+#component::rabbitmq::vhosts:
+#    /:
+#      ensure: absent
+#    development:
+#      ensure: present
+#    staging:
+#      ensure: present
+#    test:
+#      ensure: present
+
+#component::rabbitmq::userpermissions:
+#    client@development:
+#        read_permission: .*
+#        write_permission: .*
+#        configure_permission: .*
+#    client@staging:
+#        read_permission: .*
+#        write_permission: .*
+#        configure_permission: .*
+#    client@test:
+#        read_permission: .*
+#        write_permission: .*
+#        configure_permission: .*
+#    normaluser@development:
+#        read_permission: .*
+#        write_permission: .*
+#        configure_permission: .*
+#    normaluser@staging:
+#        read_permission: .*
+#        write_permission: .*
+#        configure_permission: .*
+#    normaluser@test:
+#        read_permission: .*
+#        write_permission: .*
+#        configure_permission: .*
+
 ## nginx (sendfile is turned off in dev)
 nginx::manage_repo: false
 
