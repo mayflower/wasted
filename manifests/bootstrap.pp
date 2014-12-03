@@ -1,6 +1,6 @@
 node default {
 
-  package { ['rubygems', 'git']:
+  package { ['ruby', 'git']:
     ensure        => installed,
     allow_virtual => true,
   } ->
