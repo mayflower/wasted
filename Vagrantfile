@@ -73,25 +73,19 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  # Install r10k using the shell provisioner and download the Puppet modules
-  config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = File.join(vagrantdir, 'manifests')
-    puppet.manifest_file  = 'bootstrap.pp'
-    puppet.options        = ['--verbose']
-  end
-
   config.vm.synced_folder "#{basedir}/", cnf['path'], :nfs => cnf['nfs']
   config.vm.network :private_network, :ip => cnf['ip']
 
   config.vm.synced_folder basedir, '/vagrant', :nfs => cnf['nfs']
+  config.vm.synced_folder "salt/roots/", "/srv/salt/"
 
   config.vm.provision :hostmanager if Vagrant.has_plugin?('vagrant-hostmanager')
-  config.vm.provision :puppet do |puppet|
-    puppet.manifests_path    = File.join(vagrantdir, 'manifests')
-    puppet.manifest_file     = 'site.pp'
-    puppet.module_path       = ['modules', 'site'].map { |dir| File.join(vagrantdir, dir) }
-    puppet.options           = ["--graphdir=/vagrant/vagrant/graphs --graph --environment dev"] if not ENV["VAGRANT_PUPPET_DEBUG"]
-    puppet.options           = ["--debug --graphdir=/vagrant/vagrant/graphs --graph --environment dev"] if ENV["VAGRANT_PUPPET_DEBUG"]
-    puppet.hiera_config_path = File.join(vagrantdir, 'hiera.yaml')
+
+  config.vm.provision :salt do |salt|
+    salt.minion_config = "salt/minion"
+    salt.run_highstate = true
+    #salt.log_level = "all"
+    salt.colorize = true
+    salt.verbose = true
   end
 end
