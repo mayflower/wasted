@@ -3,7 +3,7 @@ class component::rabbitmq (
   $vhosts = {},
   $userpermissions = {}
 ) {
-  validate_array($vhosts)
+  validate_hash($vhosts)
   validate_hash($users)
   validate_hash($userpermissions)
 
