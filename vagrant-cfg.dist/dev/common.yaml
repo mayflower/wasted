@@ -1,8 +1,6 @@
 ---
 env: dev
 
-nginx::vhost_purge: true
-
 # fixes permission errors
 php::fpm::user: vagrant
 php::fpm::group: users
@@ -10,6 +8,7 @@ hhvm::config::user: vagrant
 hhvm::config::group: users
 
 # fixes bugs with vboxfs
-nginx::sendfile: 'off'
-apache::sendfile: 'Off'
+nginx::config::sendfile: 'off'
+nginx::config::vhost_purge: true
 
+apache::sendfile: 'Off'
