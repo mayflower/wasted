@@ -15,6 +15,13 @@ node default {
     command => 'r10k -v info puppetfile install && touch modules/.r10k_stamp',
     cwd     => '/vagrant/vagrant',
     onlyif  => 'test ! -e modules/.r10k_stamp || test modules/.r10k_stamp -ot Puppetfile',
+  } ->
+
+  augeas { "remove-deprecated-templatedir-parameter":
+    context   => "/files/etc/puppet/puppet.conf/main",
+    changes => [
+      "rm templatedir",
+    ],
   }
 
 }
