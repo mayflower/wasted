@@ -17,7 +17,7 @@ class component::yii2 (
   }
 
   nginx::resource::location{ "${vhost}_static":
-    location  => '~ ^/(assets/css|images|js)/',
+    location  => '~ ^/(assets|css|images|js)/',
     vhost     => $vhost,
     www_root  => "${path}/web",
     try_files => ['$uri', '=404']
