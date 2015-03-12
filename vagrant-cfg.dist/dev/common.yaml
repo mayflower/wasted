@@ -2,8 +2,8 @@
 env: dev
 
 # fixes permission errors
-php::fpm::user: vagrant
-php::fpm::group: users
+php::fpm::config::user: vagrant
+php::fpm::config::group: users
 hhvm::config::user: vagrant
 hhvm::config::group: users
 
