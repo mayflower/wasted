@@ -59,6 +59,7 @@ Vagrant.configure("2") do |config|
 
   # Use vagrant-cachier if installed
   if Vagrant.has_plugin?('vagrant-cachier')
+    config.cache.scope = :box
     config.cache.auto_detect = true
   end
 
