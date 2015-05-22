@@ -69,9 +69,12 @@ Vagrant.configure("2") do |config|
     end
   end
 
-
   config.vm.provider :virtualbox do |vb, override|
-    vb.customize ['modifyvm', :id, '--memory', '2048']
+    cnf['box_cpus'] = 2 if cnf['box_cpus'].nil?
+    cnf['box_memory'] = 1024 if cnf['box_memory'].nil?
+
+    vb.customize ['modifyvm', :id, '--cpus', cnf['box_cpus']]
+    vb.customize ['modifyvm', :id, '--memory', cnf['box_memory']]
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
 
     override.vm.network :private_network, :ip => cnf['ip']
