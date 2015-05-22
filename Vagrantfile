@@ -40,7 +40,7 @@ Vagrant.configure("2") do |config|
   # Use vagrant-hostmanager if installed
   if Vagrant.has_plugin?('vagrant-hostmanager')
     config.hostmanager.enabled = true
-    config.hostmanager.manage_host = true
+    config.hostmanager.manage_host = (not File.exist?('/etc/NIXOS'))
     config.hostmanager.include_offline = true
     if cnf['vhost_aliases'].nil?
       cnf['vhost_aliases'] = ["hhvm.#{cnf['vhost']}"]
@@ -50,11 +50,6 @@ Vagrant.configure("2") do |config|
 
   if Vagrant.has_plugin?('vagrant-vbguest')
     config.vbguest.installer = GuestAdditionsFixer
-  end
-
-  config.vm.provider :virtualbox do |vb|
-    vb.customize ['modifyvm', :id, '--memory', '2048']
-    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
 
   # Use vagrant-cachier if installed
@@ -74,6 +69,24 @@ Vagrant.configure("2") do |config|
     end
   end
 
+
+  config.vm.provider :virtualbox do |vb, override|
+    vb.customize ['modifyvm', :id, '--memory', '2048']
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+
+    override.vm.network :private_network, :ip => cnf['ip']
+  end
+
+  # no nfs on lxc
+  config.vm.provider :lxc do |vb, override|
+    override.vm.synced_folder "#{basedir}/", cnf['path'], :nfs => false
+    override.vm.synced_folder basedir, '/vagrant', :nfs => false
+  end
+
+  config.vm.synced_folder "#{basedir}/", cnf['path'], :nfs => cnf['nfs']
+  config.vm.synced_folder basedir, '/vagrant', :nfs => cnf['nfs']
+
+
   # Install r10k using the shell provisioner and download the Puppet modules
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = File.join(vagrantdir, 'manifests')
@@ -81,12 +94,8 @@ Vagrant.configure("2") do |config|
     puppet.options        = ['--verbose']
   end
 
-  config.vm.synced_folder "#{basedir}/", cnf['path'], :nfs => cnf['nfs']
-  config.vm.network :private_network, :ip => cnf['ip']
-
-  config.vm.synced_folder basedir, '/vagrant', :nfs => cnf['nfs']
-
   config.vm.provision :hostmanager if Vagrant.has_plugin?('vagrant-hostmanager')
+
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path    = File.join(vagrantdir, 'manifests')
     puppet.manifest_file     = 'site.pp'
