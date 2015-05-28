@@ -4,7 +4,8 @@ class profile::app (
   $standalone_app  = false,
   $zend_framework1 = false,
   $yii1 = false,
-  $yii2 = false
+  $yii2 = false,
+  $slim = false
 ) {
   validate_bool($symfony2)
   validate_bool($php_vhost)
@@ -12,6 +13,7 @@ class profile::app (
   validate_bool($zend_framework1)
   validate_bool($yii1)
   validate_bool($yii2)
+  validate_bool($slim)
 
   if $symfony2 {
     contain component::symfony2
@@ -30,5 +32,8 @@ class profile::app (
   }
   if $yii2 {
     contain component::yii2
+  }
+  if $slim {
+    contain component::slim
   }
 }
