@@ -3,9 +3,9 @@ class profile::app (
   $php_vhost       = false,
   $standalone_app  = false,
   $zend_framework1 = false,
-  $yii1 = false,
-  $yii2 = false,
-  $slim = false
+  $yii1            = false,
+  $yii2            = false,
+  $slim            = false,
 ) {
   validate_bool($symfony2)
   validate_bool($php_vhost)

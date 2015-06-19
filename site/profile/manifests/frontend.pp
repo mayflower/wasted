@@ -1,12 +1,13 @@
 class profile::frontend (
-  $compass = false,
-  $bower = false,
+  $compass       = false,
+  $bower         = false,
   $coffee_script = false,
-  $grunt = false
+  $grunt         = false
 ) {
   validate_bool($compass)
   validate_bool($bower)
   validate_bool($grunt)
+  validate_bool($coffee_script)
 
   if $compass {
     contain component::compass

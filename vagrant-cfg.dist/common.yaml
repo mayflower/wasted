@@ -29,8 +29,11 @@ profile::database::mongodb: false
 profile::database::redis: false
 profile::database::oracle_instantclient: false
 
-profile::webserver::php: true
-profile::webserver::hhvm: false
+profile::webserver::nginx: true
+profile::webserver::apache: false
+
+profile::interpreter::php: true
+profile::interpreter::hhvm: false
 
 profile::javascript::nodejs: false
 profile::javascript::less: false
@@ -47,6 +50,8 @@ profile::app::zend_framework1: false
 profile::app::slim: false
 profile::app::php_vhost: false  # simple vhost that sends all *.php to php-fpm
 profile::app::standalone_app: false  # proxy to an app that comes with a webserver (rails, django, flask)
+
+profile::queue::rabbitmq: false
 
 ## puppet files and directories sync
 # profile::sync::files:
