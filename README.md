@@ -72,11 +72,6 @@ To update vbox guest extensions automatically you can use:
 
 ### LXC
 If you are using LXC (instead of VirtualBox) obviously you should have `lxc` and a recent kernel (>3.5) installed.
-Make sure to configure sane defaults in /etc/lxc/default.conf:
-
-    lxc.network.type = veth
-    lxc.network.link = virbr0
-    lxc.network.flags = up
 
 ### WASTED without an existing project
 If you do not (yet) have a project to use with WASTED the easiest way to test WASTED is to create a dummy repository:
