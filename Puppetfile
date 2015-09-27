@@ -7,7 +7,7 @@ mod 'puppetlabs/concat',     '1.1.2'
 mod 'puppetlabs/inifile',    '1.2.0'
 
 # package management
-mod 'puppetlabs/apt',        '1.7.0'
+mod 'puppetlabs/apt',        '1.8.0'
 mod 'example42/puppi',       '2.1.10'
 mod 'example42/yum',         '2.1.17'
 
