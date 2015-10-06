@@ -88,6 +88,12 @@ mysql::server::root_password: root
 #     user: 'dev'
 #     password: 'dev'
 
+## redis
+# component::redis::keep_bc: false
+# component::redis::instances:
+#   default:
+#     redis_port: 6971
+
 # component::standalone_app::port: 5000
 # component::standalone_app::prefix: api  # results in proxy from $vhost/api to localhost:$port
 # component::standalone_app::path: /var/www/app_name/static
