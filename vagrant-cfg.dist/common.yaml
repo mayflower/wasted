@@ -50,6 +50,7 @@ profile::app::zend_framework1: false
 profile::app::slim: false
 profile::app::php_vhost: false  # simple vhost that sends all *.php to php-fpm
 profile::app::standalone_app: false  # proxy to an app that comes with a webserver (rails, django, flask)
+profile::app::wordpress: false # the minimal wordpress configuration don't forget to create your DB!
 
 profile::queue::rabbitmq: false
 
@@ -192,3 +193,8 @@ hhvm::config::port: 9090  # make sure that hhvm and php5-fpm ports don't collide
 ## only fpm php.ini settings
 # php::fpm::settings:
 #   PHP/short_open_tag: 'On'
+
+## Wordpress config
+# component::wordpress::ssl: true
+# component::wordpress::ssl_cert_dir: /etc/ssl/certs  # creates a .crt file named after the vhost in the specified path
+# component::wordpress::ssl_key_dir: /etc/ssl/private # does the same with a .key file
