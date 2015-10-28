@@ -6,6 +6,7 @@ class profile::app (
   $yii1            = false,
   $yii2            = false,
   $slim            = false,
+  $wordpress       = false,
 ) {
   validate_bool($symfony2)
   validate_bool($php_vhost)
@@ -14,6 +15,7 @@ class profile::app (
   validate_bool($yii1)
   validate_bool($yii2)
   validate_bool($slim)
+  validate_bool($wordpress)
 
   if $symfony2 {
     contain component::symfony2
@@ -35,5 +37,8 @@ class profile::app (
   }
   if $slim {
     contain component::slim
+  }
+  if $wordpress {
+    contain component::wordpress
   }
 }
