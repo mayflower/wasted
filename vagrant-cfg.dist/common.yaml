@@ -198,3 +198,6 @@ hhvm::config::port: 9090  # make sure that hhvm and php5-fpm ports don't collide
 # component::wordpress::ssl: true
 # component::wordpress::ssl_cert_dir: /etc/ssl/certs  # creates a .crt file named after the vhost in the specified path
 # component::wordpress::ssl_key_dir: /etc/ssl/private # does the same with a .key file
+
+## nodejs config
+# component::nodejs::version: stable # makes it possible to change the node version from stable to e.g. v0.8.22

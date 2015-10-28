@@ -1,7 +1,14 @@
-class component::nodejs {
+class component::nodejs (
+  $version      = 'stable',
+){
+  if !($version == 'stable') {
+    $make_install = true
+  } else {
+    $make_install = false
+  }
   class { '::nodejs':
-    version      => 'stable',
-    make_install => false
+    version      => $version,
+    make_install => $make_install
   }
   contain '::nodejs'
 }
