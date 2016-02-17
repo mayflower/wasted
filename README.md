@@ -5,10 +5,11 @@
 **E**​xtreme
 **D**​evelopment
 
+![wasted logo](https://filedump.mayflower.de/wasted.gif)
+
 This is a generic vagrant box (ubuntu) with php, mysql, composer and nginx and preconfigured vhosts for:
  - Symfony2
  - Zend Framework 1
-
 
 ## Sections
 * [How to get WASTED](#how-to-get-wasted)
