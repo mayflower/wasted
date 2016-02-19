@@ -9,7 +9,7 @@ class component::yii2 (
   $entrypoint = $front_controller ? {
     undef => $env ? {
       /test/  => 'index-test.php',
-      default => 'app.php'
+      default => 'index.php'
     },
     default => $front_controller
   }
