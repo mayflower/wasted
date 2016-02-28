@@ -55,14 +55,14 @@ class component::yii2 (
       try_files   => ['$uri', '@rewriteapp'],
     }
 
-    nginx::resource::location { 'hhvm-sf2-rewrite':
+    nginx::resource::location { 'hhvm-yii2-rewrite':
       location      => '@rewriteapp',
       vhost         => "hhvm.${vhost}-${vhost_port}-yii2",
       www_root      => "${path}/web",
       rewrite_rules => ["^(.*)\$ /${entrypoint}/\$1 last"]
     }
 
-    nginx::resource::location { 'hhvm-sf2-php':
+    nginx::resource::location { 'hhvm-yii2-php':
       location            => "~ ^/${location_index}(/|\$)",
       vhost               => "hhvm.${vhost}-${vhost_port}-yii2",
       www_root            => "${path}/web",
