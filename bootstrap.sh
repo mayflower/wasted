@@ -1,14 +1,16 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 set -e
 
-# First Hipsters, then Bill Gates
-if [[ "$OSTYPE" == *darwin* || "$OSTYPE" == *msys* ]]
-then
-  DIR="$(cd "$(dirname $0)" && pwd -P)"
-else
-  DIR=$(readlink -m $(dirname $0))
-fi
+# First Hipsters, then Bill Gates, then the ones with a real good OS
+case "$OSTYPE" in
+    *darwin*|*msys*)
+        DIR="$(cd "$(dirname $0)" && pwd -P)"
+        ;;
+    *)
+        DIR=$(readlink -m $(dirname $0))
+        ;;
+esac
 
 # Prevent IDEs from crying
 readonly DIR
