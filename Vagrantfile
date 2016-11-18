@@ -1,110 +1,102 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-require 'yaml'
+require "yaml"
 
-Vagrant.require_version ">= 1.5"
+Vagrant.require_version ">= 1.7"
 
-if Vagrant.has_plugin?('vagrant-vbguest')
-  class GuestAdditionsFixer < VagrantVbguest::Installers::Ubuntu
-    def install(opts=nil, &block)
-      super
-      communicate.sudo('([ -e /opt/VBoxGuestAdditions-4.3.10 ] && sudo ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions) || true')
-    end
+Vagrant.configure("2") do |wasted|
+  config = load_config Dir.glob("*/vagrant-cfg", File::FNM_DOTMATCH).first
+
+  ##
+  # set the name of the basebox and the hostname
+  #
+  wasted.vm.box = config.fetch("box_name", "mayflower/trusty64-puppet3")
+  wasted.vm.hostname = config.fetch("vhost", "wasted.dev")
+
+  ##
+  # configure certain plugins, if installed:
+  # - hostmanager updates the hostsfile with hostnames, aliases
+  # - proxyconf enables http(s) proxying
+  # - cachier sets up cache buckets for package managers like apt
+  #
+  if Vagrant.has_plugin?("vagrant-hostmanager")
+    wasted.hostmanager.enabled = true
+    wasted.hostmanager.manage_host = (not File.exist?("/etc/NIXOS"))
+    wasted.hostmanager.include_offline = true
+    wasted.hostmanager.aliases = config.fetch("vhost_aliases", [])
+  end
+
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    wasted.proxy.http = wasted.proxy.https = config.fetch("proxy", nil)
+    wasted.proxy.no_proxy = config.fetch("no-proxy", nil)
+  end
+
+  wasted.cache.scope = :box if Vagrant.has_plugin?("vagrant-cachier")
+
+  ##
+  # set up the mount points
+  #
+  wasted.vm.synced_folder "#{config["dirs"]["base"]}/", config.fetch("path", "/var/www"), :nfs => config.fetch("nfs", false)
+  wasted.vm.synced_folder config["dirs"]["base"], "/vagrant", :nfs => config.fetch("nfs", false)
+
+  ##
+  # configure the providers:
+  # - set box name, cpu count, memory and other parameters
+  # - disable nfs for lxc provider
+  #
+  wasted.vm.provider :virtualbox do |box, override|
+    box.name = wasted.vm.hostname
+    box.cpus = config.fetch("box_cpus", 2)
+    box.memory = config.fetch("box_memory", 1024)
+    box.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    override.vm.network :private_network, :ip => config.fetch("ip", "10.11.12.13")
+  end
+
+  wasted.vm.provider :lxc do |box, override|
+    override.vm.synced_folder "#{config["dirs"]["base"]}/", config.fetch("path", "/var/www"), :nfs => false
+    override.vm.synced_folder config["dirs"]["base"], "/vagrant", :nfs => false
+  end
+
+  ##
+  # configure the provisioners:
+  # - bootstrap installs basic dependencies and puppet modules
+  # - site installs required software and configures the system
+  #
+  wasted.vm.provision :puppet do |puppet|
+    puppet.manifest_file  = "bootstrap.pp"
+    puppet.manifests_path = File.join(config["dirs"]["vagrant"], "manifests")
+  end
+
+  wasted.vm.provision :puppet do |puppet|
+    puppet.manifest_file     = "site.pp"
+    puppet.manifests_path    = File.join(config["dirs"]["vagrant"], "manifests")
+    puppet.hiera_config_path = File.join(config["dirs"]["vagrant"], "hiera.yaml")
+    puppet.module_path       = ["modules", "site"].map { |dir| File.join(config["dirs"]["vagrant"], dir) }
+    puppet.options           = ["--graphdir=/vagrant/vagrant/graphs" "--graph", "--environment=dev"]
+    puppet.options.unshift("--debug") if ENV["VAGRANT_PUPPET_DEBUG"]
   end
 end
 
-cnf = {}
+##
+# loads and merges the configuration from various sources
+#  returns the final configuration as hash
+#
+def load_config (dir = nil, config = {})
+  abort "Run `./vagrant/bootstrap.sh` before running vagrant!" if dir.nil?
 
-configdir = Dir.glob('*/vagrant-cfg', File::FNM_DOTMATCH)[0]
+  # find and save important directories
+  config["dirs"] = {
+    "config"  => dir,
+    "base"    => File.absolute_path(File.dirname(dir)),
+    "vagrant" => File.absolute_path(File.dirname(dir) == ".." ? "." : "vagrant"),
+  }
 
-if not configdir
-  abort 'Run vagrant/bootstrap.sh before running vagrant! (vagrant-cfg does not exit)'
-end
+  # descends on the config hierarchy and merges provided settings
+  [["common.yaml"], ["dev", "common.yaml"], ["local", "common.yaml"]]
+    .map { |dir| File.join(config["dirs"]["config"], *dir) }
+    .select { |file| File.exist?(file) }
+    .each { |file| config.merge!(YAML::load(File.open(file))) }
 
-basedir    = File.absolute_path(File.dirname(configdir))
-vagrantdir = File.absolute_path(File.dirname(configdir) == '..' ? '.' : 'vagrant')
-
-configs = [['common.yaml'], ['dev', 'common.yaml'], ['local', 'common.yaml']]
-configs.each do |config|
-  configfn = File.join(configdir, *config)
-  if File.exist?(configfn)
-    cnf = cnf.merge(YAML::load(File.open(configfn)))
-  end
-end
-
-Vagrant.configure("2") do |config|
-  config.vm.box = cnf['box_name']
-  config.vm.hostname = cnf['vhost']
-
-  # Use vagrant-hostmanager if installed
-  if Vagrant.has_plugin?('vagrant-hostmanager')
-    config.hostmanager.enabled = true
-    config.hostmanager.manage_host = (not File.exist?('/etc/NIXOS'))
-    config.hostmanager.include_offline = true
-    if cnf['vhost_aliases'].nil?
-      cnf['vhost_aliases'] = ["hhvm.#{cnf['vhost']}"]
-    end
-    config.hostmanager.aliases = cnf['vhost_aliases']
-  end
-
-  if Vagrant.has_plugin?('vagrant-vbguest')
-    config.vbguest.installer = GuestAdditionsFixer
-  end
-
-  # Use vagrant-cachier if installed
-  if Vagrant.has_plugin?('vagrant-cachier')
-    config.cache.scope = :box
-    config.cache.auto_detect = true
-  end
-
-  # If vagrant-proxyconf is installed and proxy is configured set this proxy.
-  if Vagrant.has_plugin?('vagrant-proxyconf') && cnf.has_key?('proxy') && cnf.has_key?('no-proxy')
-    if !cnf['proxy'].nil? && !cnf['proxy'].empty?
-      config.proxy.http = cnf['proxy']
-      config.proxy.https = cnf['proxy']
-      if !cnf['no-proxy'].nil? && !cnf['no-proxy'].empty?
-        config.proxy.no_proxy = cnf['no-proxy']
-      end
-    end
-  end
-
-  config.vm.provider :virtualbox do |vb, override|
-    cnf['box_cpus'] = 2 if cnf['box_cpus'].nil?
-    cnf['box_memory'] = 1024 if cnf['box_memory'].nil?
-
-    vb.customize ['modifyvm', :id, '--cpus', cnf['box_cpus']]
-    vb.customize ['modifyvm', :id, '--memory', cnf['box_memory']]
-    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-
-    override.vm.network :private_network, :ip => cnf['ip']
-  end
-
-  # no nfs on lxc
-  config.vm.provider :lxc do |vb, override|
-    override.vm.synced_folder "#{basedir}/", cnf['path'], :nfs => false
-    override.vm.synced_folder basedir, '/vagrant', :nfs => false
-  end
-
-  config.vm.synced_folder "#{basedir}/", cnf['path'], :nfs => cnf['nfs']
-  config.vm.synced_folder basedir, '/vagrant', :nfs => cnf['nfs']
-
-
-  # Install r10k using the shell provisioner and download the Puppet modules
-  config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = File.join(vagrantdir, 'manifests')
-    puppet.manifest_file  = 'bootstrap.pp'
-    puppet.options        = ['--verbose']
-  end
-
-  config.vm.provision :hostmanager if Vagrant.has_plugin?('vagrant-hostmanager')
-
-  config.vm.provision :puppet do |puppet|
-    puppet.manifests_path    = File.join(vagrantdir, 'manifests')
-    puppet.manifest_file     = 'site.pp'
-    puppet.module_path       = ['modules', 'site'].map { |dir| File.join(vagrantdir, dir) }
-    puppet.options           = ["--graphdir=/vagrant/vagrant/graphs --graph --environment dev"] if not ENV["VAGRANT_PUPPET_DEBUG"]
-    puppet.options           = ["--debug --graphdir=/vagrant/vagrant/graphs --graph --environment dev"] if ENV["VAGRANT_PUPPET_DEBUG"]
-    puppet.hiera_config_path = File.join(vagrantdir, 'hiera.yaml')
-  end
+  return config
 end
