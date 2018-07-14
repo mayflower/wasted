@@ -1,5 +1,5 @@
 class component::postgresql (
-  $postgres_password = 'root',
+  $postgres_password = undef,
   $postgis = false,
   $extensions = [],
   $databases = {}
